@@ -1,0 +1,20 @@
+###################
+# PACKAGING STAGE #
+###################
+FROM gisaia/arlas-openjdk:8-jre-alpine
+
+# install script dependencies
+RUN apk add --update bash netcat-openbsd curl && rm -rf /var/cache/apk/*
+
+# application placed into /opt/app
+WORKDIR /opt/app
+ADD arlas-permissions-server/target/arlas-permissions-server*.jar /opt/app/arlas-permissions-server.jar
+ADD conf/configuration.yaml /opt/app/configuration.yaml
+ADD docker/docker-resources/start.sh /opt/app/start.sh
+EXPOSE 9997
+
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD curl http://localhost:9997/admin/healthcheck | grep -v "\"healthy\":false" || exit 1
+
+ENTRYPOINT ["bash", "-c"]
+CMD ["/opt/app/start.sh"]

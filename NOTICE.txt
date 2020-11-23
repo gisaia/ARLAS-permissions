@@ -1,0 +1,20 @@
+
+ARLAS-permissions
+Copyright 2020 and onwards Gisaïa
+
+
+ARLAS-permissions embeds the following components and their dependencies :
+
++ DROPWIZARD
+    - Dropwizard            (Apache License Version 2.0 - http://www.dropwizard.io/)
+    - dropwizard-swagger    (Apache License Version 2.0 - https://github.com/smoketurner/dropwizard-swagger)
+
++ ARLAS-server client library     (Apache License Version 2.0 - http://docs.arlas.io/arlas-tech/current/arlas-api/)
+
++ TESTS
+    - Rest-assured          (Apache License Version 2.0 - https://github.com/rest-assured/rest-assured)
+    - JUnit                 (Eclipse Public License v 1.0 - https://junit.org/junit4/)
+    - Hamcrest              (BSD License - http://hamcrest.org/)
+
++ LOGS
+    - log4j                 (Apache License Version 2.0 - https://github.com/apache/log4j)

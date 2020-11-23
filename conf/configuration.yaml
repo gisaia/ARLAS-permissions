@@ -1,0 +1,85 @@
+server:
+  requestLog:
+    appenders:
+      - type: console
+      - type: file
+        currentLogFilename: ${ARLAS_PERMISSIONS_ACCESS_LOG_FILE:-arlas-permissions-access.log}
+        archivedLogFilenamePattern: ${ACCESS_PERMISSIONS_LOG_FILE_ARCHIVE:-arlas-permissions-access-%d.log.gz}
+  registerDefaultExceptionMappers: false
+  type: simple
+  rootPath: ${ARLAS_PERMISSIONS_PREFIX:-/arlas_permissions_server}
+  applicationContextPath: ${ARLAS_PERMISSIONS_APP_PATH:-/}
+  adminContextPath: ${ARLAS_PERMISSIONS_ADMIN_PATH:-/admin}
+  connector:
+    type: http
+    port: ${ARLAS_PERMISSIONS_PORT:-9997}
+  maxThreads: ${ARLAS_PERMISSIONS_MAX_THREADS:-1024}
+  minThreads: ${ARLAS_PERMISSIONS_MIN_THREADS:-8}
+  maxQueuedRequests: ${ARLAS_PERMISSIONS_MAX_QUEUED_REQUESTS:-1024}
+
+########################################################
+############ LOGGING                     ###############
+########################################################
+# Configuration console and file LOGGING
+logging:
+  level: ${ARLAS_PERMISSIONS_LOGGING_LEVEL:-INFO}
+  loggers:
+    "javax.management.mbeanserver": ${ARLAS_PERMISSIONS_LOGGING_MBEAN_LEVEL:-INFO}
+    "org.apache.http": ${ARLAS_LOGGING_APACHE_HTTP_LEVEL:-INFO}
+    "org.eclipse.jetty": ${ARLAS_LOGGING_JETTY_LEVEL:-INFO}
+    "org.elasticsearch.client": ${ARLAS_LOGGING_ELASTICSEARCH_LEVEL:-DEBUG}
+    "org.reflections": ${ARLAS_LOGGING_REFLECTIONS_LEVEL:-INFO}
+    "io.dropwizard": ${ARLAS_LOGGING_DROPWIZARD_LEVEL:-INFO}
+    "io.swagger": ${ARLAS_LOGGING_SWAGGER_LEVEL:-INFO}
+  appenders:
+    - type: console
+      threshold:  ${ARLAS_PERMISSIONS_LOGGING_CONSOLE_LEVEL:-INFO}
+    - type: file
+      currentLogFilename: ${ARLAS_PERMISSIONS_LOGGING_FILE:-arlas-permissions.log}
+      threshold: ${ARLAS_PERMISSIONS_LOGGING_FILE_LEVEL:-INFO}
+      archive: ${ARLAS_PERMISSIONS_LOGGING_FILE_ARCHIVE:-true}
+      archivedLogFilenamePattern: ${ARLAS_PERMISSIONS_LOGGING_FILE_ARCHIVE_FILE_PATTERN:-arlas-%d.log}
+      archivedFileCount: ${ARLAS_PERMISSIONS_LOGGING_FILE_ARCHIVE_FILE_COUNT:-5}
+
+swagger: # Configuration of SWAGGER for generating documentation and APIs
+  resourcePackage: io.arlas.permissions.rest # The java package to process for extracting the APIs
+
+########################################################
+############ ZIPKIN                      ###############
+########################################################
+# Zipkin let you analyze the API calls
+zipkin: # The ZIPIN configuration, not active by default
+  enabled: ${ARLAS_PERMISSIONS_ZIPKIN_ENABLED:-false} # Do we want zipkin to collect the API calls? Not by default.
+  serviceHost: ${ARLAS_PERMISSIONS_ZIPKIN_SERVICE_HOST:-127.0.0.1} # Listening IP address of the service
+  servicePort: ${ARLAS_PERMISSIONS_PORT:-9997} # Listening port of the service
+  collector: ${ARLAS_PERMISSIONS_ZIPKIN_COLLECTOR:-http}
+  baseUrl: ${ARLAS_PERMISSIONS_ZIPKIN_BASEURL:-http://localhost:9411} # Where is zipkin running?
+
+arlas_cors:
+  enabled: ${ARLAS_CORS_ENABLED:-true}
+  allowed_origins: ${ARLAS_CORS_ALLOWED_ORIGINS:-"*"}
+  allowed_headers: ${ARLAS_CORS_ALLOWED_HEADERS:-"arlas-user,arlas-groups,arlas-organization,X-Requested-With,Content-Type,Accept,Origin,Authorization,WWW-Authenticate"}
+  allowed_methods: ${ARLAS_CORS_ALLOWED_METHODS:-"OPTIONS,GET,PUT,POST,DELETE,HEAD"}
+  allowed_credentials: ${ARLAS_CORS_ALLOWED_CREDENTIALS:-true}
+  exposed_headers: ${ARLAS_CORS_EXPOSED_HEADERS:-"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,Location,WWW-Authenticate"}
+
+arlas_auth:
+  enabled: ${ARLAS_AUTH_ENABLED:-false}
+  public_uris: [${ARLAS_AUTH_PUBLIC_URIS:-swagger.*:*,persist.*:GET}]
+  # deprecated
+  certificate_file: ${ARLAS_AUTH_CERT_FILE:-/opt/app/arlas.pem}
+  certificate_url: ${ARLAS_AUTH_CERT_URL:-}
+  header_user: ${ARLAS_HEADER_USER:-arlas-user}
+  header_group: ${ARLAS_HEADER_GROUP:-arlas-groups}
+  claim_roles: ${ARLAS_CLAIM_ROLES:-http://arlas.io/roles}
+  claim_permissions: ${ARLAS_CLAIM_PERMISSIONS:-http://arlas.io/permissions}
+
+elastic:
+  elastic-nodes: ${ARLAS_ELASTIC_NODES:-localhost:9200}
+  elastic-sniffing: ${ARLAS_ELASTIC_SNIFFING:-false}
+  elastic-enable-ssl: ${ARLAS_ELASTIC_ENABLE_SSL:-false}
+  elastic-credentials: ${ARLAS_ELASTIC_CREDENTIALS}
+  elastic-skip-master: ${ARLAS_ELASTIC_SKIP_MASTER:-true}
+
+arlas_database_factory_class: ${ARLAS_PERMISSIONS_DATABASE_FACTORY_CLASS:-io.arlas.permissions.server.impl.ElasticDatabaseToolsFactory}
+arlas_cache_factory_class: ${ARLAS_PERMISSIONS_CACHE_FACTORY_CLASS:-io.arlas.permissions.server.impl.HazelcastCacheFactory}

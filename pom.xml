@@ -1,0 +1,212 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.arlas</groupId>
+    <artifactId>arlas-permissions-parent</artifactId>
+    <version>14.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>ARLAS permissions parent</name>
+
+    <modules>
+        <module>arlas-permissions-core</module>
+        <module>arlas-permissions-rest</module>
+        <module>arlas-permissions-server</module>
+        <module>arlas-permissions-tests</module>
+    </modules>
+
+    <properties>
+        <!-- PROJECT-->
+        <arlas-server.version>14.7.0</arlas-server.version>
+        <log4j.version>2.13.2</log4j.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <skipTests>true</skipTests>
+        <surefire.version>2.20.1</surefire.version>
+
+        <!-- TESTS -->
+        <junit.version>4.13.1</junit.version>
+        <org.hamcrest.version>1.3</org.hamcrest.version>
+        <io.rest-assured.version>3.3.0</io.rest-assured.version>
+
+        <!-- DOCUMENTATION GENERATION-->
+        <swagger2markup.version>1.3.3</swagger2markup.version>
+        <swagger2markup.plugin.version>1.3.3</swagger2markup.plugin.version>
+        <swagger2markup.extension.version>1.3.3</swagger2markup.extension.version>
+
+        <swagger.input>target/tmp/swagger.json</swagger.input>
+        <swagger.output>target/generated-docs/</swagger.output>
+    </properties>
+
+    <dependencies>
+        <!-- ____________________________________________________ -->
+        <!-- Tests -->
+        <!-- ____________________________________________________ -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- ____________________________________________________ -->
+        <!-- LOGS -->
+        <!-- ____________________________________________________ -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.20.1</version>
+                <configuration>
+                    <argLine>-Xmx2048m -XX:MaxPermSize=1024m</argLine>
+                    <skipITs>${skipTests}</skipITs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- SUREFIRE LOCK DOWN -->
+            <plugin>
+                <!-- lock down surefire version -->
+                <!-- avoid having to "download all the internet" on each docker build of arlas-permissions docker image -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+            </plugin>
+
+            <!-- DOCUMENTATION GENERATION -->
+            <plugin>
+                <groupId>io.github.swagger2markup</groupId>
+                <artifactId>swagger2markup-maven-plugin</artifactId>
+                <version>${swagger2markup.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.github.swagger2markup</groupId>
+                        <artifactId>swagger2markup-import-files-ext</artifactId>
+                        <version>${swagger2markup.extension.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.swagger2markup</groupId>
+                        <artifactId>swagger2markup</artifactId>
+                        <version>${swagger2markup.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <swaggerInput>${swagger.input}</swaggerInput>
+                    <outputDir>${swagger.output}</outputDir>
+                    <config>
+                        <swagger2markup.markupLanguage>ASCIIDOC</swagger2markup.markupLanguage>
+                        <swagger2markup.pathsGroupedBy>TAGS</swagger2markup.pathsGroupedBy>
+                        <swagger2markup.extensions.dynamicOverview.contentPath>${project.basedir}/src/docs/asciidoc/extensions/overview</swagger2markup.extensions.dynamicOverview.contentPath>
+                        <swagger2markup.extensions.dynamicDefinitions.contentPath>${project.basedir}/src/docs/asciidoc/extensions/definitions</swagger2markup.extensions.dynamicDefinitions.contentPath>
+                        <swagger2markup.extensions.dynamicPaths.contentPath>${project.basedir}/src/docs/asciidoc/extensions/paths</swagger2markup.extensions.dynamicPaths.contentPath>
+                        <swagger2markup.extensions.dynamicSecurity.contentPath>${project.basedir}src/docs/asciidoc/extensions/security</swagger2markup.extensions.dynamicSecurity.contentPath>
+                    </config>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>io.github.swagger2markup</groupId>
+                <artifactId>swagger2markup-maven-plugin</artifactId>
+                <version>${swagger2markup.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>io.github.swagger2markup</groupId>
+                        <artifactId>swagger2markup-import-files-ext</artifactId>
+                        <version>${swagger2markup.extension.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>io.github.swagger2markup</groupId>
+                        <artifactId>swagger2markup</artifactId>
+                        <version>${swagger2markup.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <swaggerInput>${swagger.input}</swaggerInput>
+                    <outputDir>${swagger.output}</outputDir>
+                    <config>
+                        <swagger2markup.markupLanguage>MARKDOWN</swagger2markup.markupLanguage>
+                    </config>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>jcenter-releases</id>
+            <name>jcenter</name>
+            <url>https://jcenter.bintray.com</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <repositories>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net repository</name>
+            <url>http://download.java.net/maven/2</url>
+        </repository>
+
+        <repository>
+            <id>jcenter.bintray.com</id>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
+
+        <repository>
+            <id>gisaia-public</id>
+            <url>https://dl.cloudsmith.io/public/gisaia/public/maven</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+
+    </repositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>io.arlas.permissions.server.parent</id>
+            <url>https://maven.cloudsmith.io/gisaia/private/</url>
+        </snapshotRepository>
+        <repository>
+            <id>io.arlas.permissions.server.parent</id>
+            <url>https://maven.cloudsmith.io/gisaia/private/</url>
+        </repository>
+    </distributionManagement>
+
+</project>

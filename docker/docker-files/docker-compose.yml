@@ -8,12 +8,12 @@ services:
     image: gisaia/arlas-permissions-server:${ARLAS_VERSION:-latest}
     container_name: arlas-permissions-server
     environment:
-      - ARLAS_SERVER_PORT="${ARLAS_SERVER_PORT:-9997}"
-      - ARLAS_SERVER_PREFIX="${ARLAS_SERVER_PREFIX:-/arlas_permissions_server}"
-      - ARLAS_SERVER_APP_PATH="${ARLAS_SERVER_APP_PATH:-/}"
-      - ARLAS_AUTH_ENABLED="${ARLAS_AUTH_ENABLED:-false}"
+      - ARLAS_PERMISSIONS_PORT="${ARLAS_PERMISSIONS_PORT:-9997}"
+      - ARLAS_PERMISSIONS_PREFIX="${ARLAS_PERMISSIONS_PREFIX:-/arlas_permissions_server}"
+      - ARLAS_PERMISSIONS_APP_PATH="${ARLAS_PERMISSIONS_APP_PATH:-/}"
+      - ARLAS_CORS_ENABLED="${ARLAS_CORS_ENABLED:-false}"
+      - ARLAS_AUTH_ENABLED="${ARLAS_AUTH_ENABLED:-true}"
+      - ARLAS_AUTH_CERT_URL="${ARLAS_AUTH_CERT_URL}"
     ports:
       - 19997:9997
-    volumes:
-      - ${ARLAS_AUTH_LOCAL_CERT_FILE:-/tmp}:${ARLAS_AUTH_CERT_FILE:-/opt/app/arlas.pem}:ro
     command: ["/opt/app/start.sh"]

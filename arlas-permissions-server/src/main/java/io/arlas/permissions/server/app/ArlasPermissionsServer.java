@@ -99,7 +99,7 @@ public class ArlasPermissionsServer extends Application<io.arlas.permissions.ser
         environment.jersey().register(new JsonProcessingExceptionMapper());
         environment.jersey().register(new ConstraintViolationExceptionMapper());
 
-        environment.jersey().register(new PermissionsRestService());
+        environment.jersey().register(new PermissionsRestService(configuration.arlasAuthConfiguration.enabled));
 
         // Auth
         if (configuration.arlasAuthConfiguration.enabled) {

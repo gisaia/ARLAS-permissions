@@ -74,6 +74,7 @@ arlas_auth:
   claim_roles: ${ARLAS_CLAIM_ROLES:-http://arlas.io/roles}
   claim_permissions: ${ARLAS_CLAIM_PERMISSIONS:-http://arlas.io/permissions}
 
+# The following configuration is not used but required by the ArlasBaseConfiguration class
 elastic:
   elastic-nodes: ${ARLAS_ELASTIC_NODES:-localhost:9200}
   elastic-sniffing: ${ARLAS_ELASTIC_SNIFFING:-false}

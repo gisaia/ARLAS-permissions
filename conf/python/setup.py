@@ -1,7 +1,7 @@
 # coding: utf-8
 
 """
-    ARLAS persistence API
+    ARLAS permissions API
 
     Persists data
 
@@ -14,8 +14,8 @@
 import sys
 from setuptools import setup, find_packages
 
-NAME = "arlas-persistence_api"
-VERSION = "api_persistence_version"
+NAME = "arlas-permissions_api"
+VERSION = "api_permissions_version"
 # To install the library, run the following
 #
 # python setup.py install
@@ -28,15 +28,15 @@ REQUIRES = ["urllib3 >= 1.15", "six >= 1.10", "certifi", "python-dateutil"]
 setup(
     name=NAME,
     version=VERSION,
-    description="ARLAS persistence API",
+    description="ARLAS permissions API",
     author = "Gisaïa",
     author_email="contact@gisaia.com",
-    url="https://github.com/gisaia/ARLAS-persistence",
-    keywords=["Arlas", "ARLAS persistence API"],
+    url="https://github.com/gisaia/ARLAS-permissions",
+    keywords=["Arlas", "ARLAS permissions API"],
     install_requires=REQUIRES,
     packages=find_packages(),
     include_package_data=True,
     long_description="""\
-    Explore the content of ARLAS persistence
+    Explore the content of ARLAS permissions
     """
 )

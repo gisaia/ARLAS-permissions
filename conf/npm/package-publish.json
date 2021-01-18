@@ -1,5 +1,5 @@
 {
-  "name": "arlas-persistence-api",
+  "name": "arlas-permissions-api",
   "version": "API_VERSION",
   "description": "Persists data",
   "author": "Gisaia",

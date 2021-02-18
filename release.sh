@@ -122,7 +122,7 @@ if [ -z ${ARLAS_DEV+x} ]; then usage;          else    echo "Next development ve
 if [ "$RELEASE" == "YES" -a "$SKIP_API" == "NO" ]; then
     export npmlogin=`npm whoami`
     if  [ -z "$npmlogin"  ] ; then echo "Your are not logged on to npm"; exit -1; else  echo "logged as "$npmlogin ; fi
-
+    if  [ -z "$GITHUB_CHANGELOG_TOKEN"  ] ; then echo "Please set GITHUB_CHANGELOG_TOKEN environment variable"; exit -1; fi
     if  [ -z "$PIP_LOGIN"  ] ; then echo "Please set PIP_LOGIN environment variable"; exit -1; fi
     if  [ -z "$PIP_PASSWORD"  ] ; then echo "Please set PIP_PASSWORD environment variable"; exit -1; fi
 fi
@@ -290,7 +290,7 @@ if [ "$RELEASE" == "YES" ]; then
     git push origin v${ARLAS_permissions_VERSION}
     #@see scripts/build-github-changelog-generator.sh in ARLAS-server project if you need a fresher version of this tool
     docker run -it --rm -v "$(pwd)":/usr/local/src/your-app gisaia/github-changelog-generator:latest github_changelog_generator \
-        -u gisaia -p arlas-permissions-server --token 479b4f9b9390acca5c931dd34e3b7efb21cbf6d0 \
+        -u gisaia -p arlas-permissions-server --token ${GITHUB_CHANGELOG_TOKEN}  \
         --no-pr-wo-labels --no-issues-wo-labels --no-unreleased --issue-line-labels API,OGC,conf,security,documentation \
         --exclude-labels type:duplicate,type:question,type:wontfix,type:invalid \
         --bug-labels type:bug \

@@ -290,7 +290,7 @@ if [ "$RELEASE" == "YES" ]; then
     git push origin v${ARLAS_permissions_VERSION}
     #@see scripts/build-github-changelog-generator.sh in ARLAS-server project if you need a fresher version of this tool
     docker run -it --rm -v "$(pwd)":/usr/local/src/your-app gisaia/github-changelog-generator:latest github_changelog_generator \
-        -u gisaia -p arlas-permissions-server --token ${GITHUB_CHANGELOG_TOKEN}  \
+        -u gisaia -p ARLAS-permissions --token ${GITHUB_CHANGELOG_TOKEN}  \
         --no-pr-wo-labels --no-issues-wo-labels --no-unreleased --issue-line-labels API,OGC,conf,security,documentation \
         --exclude-labels type:duplicate,type:question,type:wontfix,type:invalid \
         --bug-labels type:bug \

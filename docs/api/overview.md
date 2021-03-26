@@ -7,7 +7,7 @@ permissions REST services
 
 
 ### Version information
-*Version* : 15.0.0
+*Version* : 16.0.1
 
 
 ### Contact information
@@ -22,7 +22,7 @@ permissions REST services
 
 
 ### URI scheme
-*BasePath* : /arlas-permissions-server  
+*BasePath* : /arlas_permissions_server  
 *Schemes* : HTTP, HTTPS
 
 

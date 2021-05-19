@@ -84,3 +84,26 @@ elastic:
 
 arlas_database_factory_class: ${ARLAS_PERMISSIONS_DATABASE_FACTORY_CLASS:-io.arlas.permissions.server.impl.ElasticDatabaseToolsFactory}
 arlas_cache_factory_class: ${ARLAS_PERMISSIONS_CACHE_FACTORY_CLASS:-io.arlas.permissions.server.impl.HazelcastCacheFactory}
+
+database:
+  driverClass: do.not.set
+  user: ${ARLAS_JDBC_USER:-postgres}
+  password: ${ARLAS_JDBC_PASSWORD:-postgres}
+  url: ${ARLAS_JDBC_URL:-localhost:5432/arlas}
+  # any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "/* MyApplication Health Check */ SELECT 1"
+  # the minimum number of connections to keep open
+  minSize: 8
+  # the maximum number of connections to keep open
+  maxSize: 32
+  # whether or not idle connections should be validated
+  checkConnectionWhileIdle: false
+  # the amount of time to sleep between runs of the idle connection validation, abandoned cleaner and idle pool resizing
+  evictionInterval: 10s
+  # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
+  minIdleTime: 1 minute

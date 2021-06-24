@@ -18,8 +18,8 @@
  */
 package io.arlas.permissions.server.app;
 
-import io.arlas.server.app.ArlasBaseConfiguration;
-import io.arlas.server.exceptions.ArlasConfigurationException;
+import io.arlas.server.core.app.ArlasBaseConfiguration;
+import io.arlas.server.core.exceptions.ArlasConfigurationException;
 
 public class ArlasPermissionsServerConfiguration extends ArlasBaseConfiguration {
 

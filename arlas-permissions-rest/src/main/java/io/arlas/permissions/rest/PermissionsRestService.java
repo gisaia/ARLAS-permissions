@@ -22,9 +22,9 @@ package io.arlas.permissions.rest;
 import com.codahale.metrics.annotation.Timed;
 import io.arlas.permissions.model.Resource;
 import io.arlas.permissions.server.app.Documentation;
-import io.arlas.server.auth.ArlasClaims;
-import io.arlas.server.model.response.Error;
-import io.arlas.server.utils.ResponseFormatter;
+import io.arlas.server.admin.auth.ArlasClaims;
+import io.arlas.server.core.model.response.Error;
+import io.arlas.server.core.utils.ResponseFormatter;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,7 +83,7 @@ public class PermissionsRestService {
             // --------------------------------------------------------
             // ----------------------- FORM -----------------------
             // --------------------------------------------------------
-            @ApiParam(name = "pretty", value = io.arlas.server.app.Documentation.FORM_PRETTY,
+            @ApiParam(name = "pretty", value = io.arlas.server.core.app.Documentation.FORM_PRETTY,
                     defaultValue = "false")
             @QueryParam(value = "pretty") Boolean pretty
     ) {

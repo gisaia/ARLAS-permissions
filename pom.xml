@@ -17,7 +17,7 @@
 
     <properties>
         <!-- PROJECT-->
-        <arlas-server.version>17.7.0</arlas-server.version>
+        <arlas-server.version>18.7.0</arlas-server.version>
         <log4j.version>2.13.2</log4j.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipTests>true</skipTests>

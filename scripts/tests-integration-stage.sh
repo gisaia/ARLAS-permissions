@@ -78,6 +78,11 @@ function test_doc() {
     ./mkDocs.sh
 }
 
+if [ ! -z ${DOCKER_USERNAME+x} ] && [ ! -z ${DOCKER_PASSWORD+x} ]
+then
+  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+fi
+
 if [ "$STAGE" == "REST" ]; then test_permissions_server; fi
 if [ "$STAGE" == "DOC" ]; then test_doc; fi
 

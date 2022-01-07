@@ -21,6 +21,7 @@ package io.arlas.permissions.server.app;
 
 import brave.http.HttpTracing;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.smoketurner.dropwizard.zipkin.ZipkinBundle;
@@ -64,6 +65,7 @@ public class ArlasPermissionsServer extends Application<io.arlas.permissions.ser
     @Override
     public void initialize(Bootstrap<io.arlas.permissions.server.app.ArlasPermissionsServerConfiguration> bootstrap) {
         bootstrap.registerMetrics();
+        bootstrap.getObjectMapper().enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         bootstrap.setConfigurationSourceProvider(new SubstitutingSourceProvider(
                 bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false)));
         bootstrap.addBundle(new SwaggerBundle<io.arlas.permissions.server.app.ArlasPermissionsServerConfiguration>() {

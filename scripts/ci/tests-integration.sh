@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -o errexit -o pipefail
 
 function clean_docker {
   ./scripts/docker-clean.sh
@@ -8,39 +8,23 @@ function clean_docker {
 		-w /opt/maven \
 		-v $PWD:/opt/maven \
 		-v $HOME/.m2:/root/.m2 \
-		maven:3.8.2-openjdk-17 \
+		maven:3.8.4-openjdk-17 \
 		mvn clean
 }
 
 function clean_exit {
   ARG=$?
-	echo "===> Exit stage ${STAGE} = ${ARG}"
+  echo "===> Exit status = ${ARG}"
+  echo "===> arlas-permissions-server logs"
+  docker logs arlas-permissions-server
   clean_docker
   exit $ARG
 }
 trap clean_exit EXIT
 
-usage(){
-	echo "Usage: ./tests-integration-stage.sh --stage=REST"
-	exit 1
-}
-
-for i in "$@"
-do
-case $i in
-    --stage=*)
-    STAGE="${i#*=}"
-    shift # past argument=value
-    ;;
-    *)
-            # unknown option
-    ;;
-esac
-done
-
 # GO TO PROJECT PATH
 SCRIPT_PATH=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
-cd ${SCRIPT_PATH}/..
+cd ${SCRIPT_PATH}/../..
 
 # CHECK ALV2 DISCLAIMER
 if [ $(find ./*/src -name "*.java" -exec grep -L Licensed {} \; | wc -l) -gt 0 ]; then
@@ -49,13 +33,11 @@ if [ $(find ./*/src -name "*.java" -exec grep -L Licensed {} \; | wc -l) -gt 0 ]
     exit -1
 fi
 
-if [ -z ${STAGE+x} ]; then usage; else echo "Tests stage : ${STAGE}"; fi
-
 function start_stack() {
-    ./scripts/docker-clean.sh
-    ./scripts/docker-run.sh --build
+  mkdir -p /tmp/auth
+  ./scripts/docker-clean.sh
+  ./scripts/docker-run.sh --build
 }
-
 
 function test_permissions_server() {
     export ARLAS_AUTH_ENABLED=false
@@ -73,16 +55,4 @@ function test_permissions_server() {
         mvn -Dit.test=PermissionsIT verify -DskipTests=false -DfailIfNoTests=false
 }
 
-
-function test_doc() {
-    ./mkDocs.sh
-}
-
-if [ ! -z ${DOCKER_USERNAME+x} ] && [ ! -z ${DOCKER_PASSWORD+x} ]
-then
-  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-fi
-
-if [ "$STAGE" == "REST" ]; then test_permissions_server; fi
-if [ "$STAGE" == "DOC" ]; then test_doc; fi
-
+test_permissions_server

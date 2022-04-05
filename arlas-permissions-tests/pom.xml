@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.arlas</groupId>
     <artifactId>arlas-permissions-tests</artifactId>
-    <version>20.0.1-SNAPSHOT</version>
+    <version>21.0.0</version>
     <packaging>jar</packaging>
     <name>ARLAS permissions server</name>
 
     <parent>
         <groupId>io.arlas</groupId>
         <artifactId>arlas-permissions-parent</artifactId>
-        <version>20.0.1-SNAPSHOT</version>
+        <version>21.0.0</version>
     </parent>
 
     <dependencies>

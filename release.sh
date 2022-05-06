@@ -166,7 +166,7 @@ else
         --mount dst=/mnt/.m2,src="$HOME/.m2/",type=bind \
         --mount dst=/opt/maven,src="$PWD",type=bind \
         --rm \
-        maven:3.8.2-openjdk-17 \
+        maven:3.8.4-openjdk-17 \
             clean install
 fi
 

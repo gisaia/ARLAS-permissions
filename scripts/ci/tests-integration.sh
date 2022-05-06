@@ -51,7 +51,7 @@ function test_permissions_server() {
         -e ARLAS_SERVER_APP_PATH=${ARLAS_SERVER_APP_PATH} \
         -e ARLAS_SERVER_STORAGE="/tmp" \
         --net arlas_default \
-        maven:3.8.2-openjdk-17 \
+        maven:3.8.4-openjdk-17 \
         mvn -Dit.test=PermissionsIT verify -DskipTests=false -DfailIfNoTests=false
 }
 

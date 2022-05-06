@@ -26,15 +26,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.smoketurner.dropwizard.zipkin.ZipkinBundle;
 import com.smoketurner.dropwizard.zipkin.ZipkinFactory;
+import io.arlas.commons.config.ArlasCorsConfiguration;
+import io.arlas.commons.exceptions.ArlasExceptionMapper;
+import io.arlas.commons.exceptions.ConstraintViolationExceptionMapper;
+import io.arlas.commons.exceptions.IllegalArgumentExceptionMapper;
+import io.arlas.commons.rest.auth.PolicyEnforcer;
+import io.arlas.commons.rest.utils.InsensitiveCaseFilter;
+import io.arlas.commons.rest.utils.PrettyPrintFilter;
 import io.arlas.permissions.rest.PermissionsRestService;
-import io.arlas.server.core.app.ArlasCorsConfiguration;
-import io.arlas.server.admin.auth.AuthenticationFilter;
-import io.arlas.server.admin.auth.AuthorizationFilter;
-import io.arlas.server.core.exceptions.ArlasExceptionMapper;
-import io.arlas.server.core.exceptions.ConstraintViolationExceptionMapper;
-import io.arlas.server.core.exceptions.IllegalArgumentExceptionMapper;
-import io.arlas.server.core.utils.InsensitiveCaseFilter;
-import io.arlas.server.core.utils.PrettyPrintFilter;
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
@@ -68,13 +67,13 @@ public class ArlasPermissionsServer extends Application<io.arlas.permissions.ser
         bootstrap.getObjectMapper().enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
         bootstrap.setConfigurationSourceProvider(new SubstitutingSourceProvider(
                 bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false)));
-        bootstrap.addBundle(new SwaggerBundle<io.arlas.permissions.server.app.ArlasPermissionsServerConfiguration>() {
+        bootstrap.addBundle(new SwaggerBundle<>() {
             @Override
             protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(io.arlas.permissions.server.app.ArlasPermissionsServerConfiguration configuration) {
                 return configuration.swaggerBundleConfiguration;
             }
         });
-        bootstrap.addBundle(new ZipkinBundle<io.arlas.permissions.server.app.ArlasPermissionsServerConfiguration>(getName()) {
+        bootstrap.addBundle(new ZipkinBundle<>(getName()) {
             @Override
             public ZipkinFactory getZipkinFactory(io.arlas.permissions.server.app.ArlasPermissionsServerConfiguration configuration) {
                 return configuration.zipkinConfiguration;
@@ -101,17 +100,17 @@ public class ArlasPermissionsServer extends Application<io.arlas.permissions.ser
         environment.jersey().register(new JsonProcessingExceptionMapper());
         environment.jersey().register(new ConstraintViolationExceptionMapper());
 
-        environment.jersey().register(new PermissionsRestService(configuration.arlasAuthConfiguration.enabled));
-
         // Auth
-        if (configuration.arlasAuthConfiguration.enabled) {
-            environment.jersey().register(new AuthenticationFilter(configuration.arlasAuthConfiguration));
-            environment.jersey().register(new AuthorizationFilter(configuration.arlasAuthConfiguration));
-        }
+        PolicyEnforcer policyEnforcer = PolicyEnforcer.newInstance(configuration.arlasAuthPolicyClass)
+                .setAuthConf(configuration.arlasAuthConfiguration);
+        LOGGER.info("PolicyEnforcer: " + policyEnforcer.getClass().getCanonicalName());
+        environment.jersey().register(policyEnforcer);
+
+        environment.jersey().register(new PermissionsRestService(policyEnforcer.isEnabled()));
 
         //cors
-        if (configuration.arlarsCorsConfiguration.enabled) {
-            configureCors(environment, configuration.arlarsCorsConfiguration);
+        if (configuration.arlasCorsConfiguration.enabled) {
+            configureCors(environment, configuration.arlasCorsConfiguration);
         } else {
             CrossOriginFilter filter = new CrossOriginFilter();
             final FilterRegistration.Dynamic cors = environment.servlets().addFilter("CrossOriginFilter", filter);
@@ -134,7 +133,7 @@ public class ArlasPermissionsServer extends Application<io.arlas.permissions.ser
         cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, String.valueOf(configuration.allowedCredentials));
         String exposedHeader = configuration.exposedHeaders;
         // Expose always HttpHeaders.WWW_AUTHENTICATE to authentify on client side a non public uri call
-        if(configuration.exposedHeaders.indexOf(HttpHeaders.WWW_AUTHENTICATE)<0){
+        if(!configuration.exposedHeaders.contains(HttpHeaders.WWW_AUTHENTICATE)){
             exposedHeader = configuration.exposedHeaders.concat(",").concat(HttpHeaders.WWW_AUTHENTICATE);
         }
         cors.setInitParameter(CrossOriginFilter.EXPOSED_HEADERS_PARAM, exposedHeader);

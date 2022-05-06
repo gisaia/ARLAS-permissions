@@ -20,11 +20,10 @@
 package io.arlas.permissions.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import io.arlas.commons.rest.auth.RuleClaim;
+import io.arlas.commons.rest.utils.ResponseFormatter;
 import io.arlas.permissions.model.Resource;
 import io.arlas.permissions.server.app.Documentation;
-import io.arlas.server.admin.auth.ArlasClaims;
-import io.arlas.server.core.model.response.Error;
-import io.arlas.server.core.utils.ResponseFormatter;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,13 +82,13 @@ public class PermissionsRestService {
             // --------------------------------------------------------
             // ----------------------- FORM -----------------------
             // --------------------------------------------------------
-            @ApiParam(name = "pretty", value = io.arlas.server.core.app.Documentation.FORM_PRETTY,
+            @ApiParam(name = "pretty", value = Documentation.FORM_PRETTY,
                     defaultValue = "false")
             @QueryParam(value = "pretty") Boolean pretty
     ) {
         List<Resource> result = new ArrayList<>();
         result.addAll(getPublicResources((List<String>) request.getAttribute("public"), filter));
-        result.addAll(getRulesResources(((ArlasClaims) request.getAttribute("claims")), filter));
+        result.addAll(getRulesResources(((List<RuleClaim>) request.getAttribute("claims")), filter));
         if (!authEnabled) {
             // if no auth is enabled then all resources are authorized
             HTTP_VERBS.forEach(verb -> result.add(new Resource(verb, "*")));
@@ -104,18 +103,17 @@ public class PermissionsRestService {
                 .stream()
                 .map(u -> !u.contains(":") ? u.concat(allMethods) : (u.endsWith(":*") ? u.replace(":*", allMethods) : u))
                 .flatMap(u -> Arrays.stream(u.split(":")[1].split("/")).map(verb -> new Resource(verb.toUpperCase(), u.split(":")[0])))
-                .filter(resource -> filter == null || resource.path.contains(filter))
+                .filter(resource -> filter == null || filter.matches(resource.path))
                 .collect(Collectors.toList());
 
     }
 
-    private List<Resource> getRulesResources(ArlasClaims arlasClaims, String filter) {
+    private List<Resource> getRulesResources(List<RuleClaim> arlasClaims, String filter) {
         return Optional.ofNullable(arlasClaims)
-                .map(ArlasClaims::getRules)
                 .orElse(Collections.emptyList())
                 .stream()
                 .flatMap(rule -> Arrays.stream(rule.verbs.split(",")).map(verb -> new Resource(verb.toUpperCase(), rule.resource)))
-                .filter(resource -> filter == null || resource.path.contains(filter))
+                .filter(resource -> filter == null || filter.matches(resource.path))
                 .collect(Collectors.toList());
     }
 }

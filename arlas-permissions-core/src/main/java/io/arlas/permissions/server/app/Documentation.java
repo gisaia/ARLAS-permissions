@@ -23,4 +23,5 @@ public class Documentation {
 
     public static final String GET_OPERATION = "Returns a list of permissions for the current context/user";
     public static final String FILTER = "A regex to apply to permissions uris in order to filter the returned list.";
+    public static final String FORM_PRETTY = "Pretty print";
 }

@@ -18,13 +18,7 @@
  */
 package io.arlas.permissions.server.app;
 
-import io.arlas.server.core.app.ArlasBaseConfiguration;
-import io.arlas.server.core.exceptions.ArlasConfigurationException;
+import io.arlas.commons.config.ArlasConfiguration;
 
-public class ArlasPermissionsServerConfiguration extends ArlasBaseConfiguration {
-
-    public void check() throws ArlasConfigurationException {
-        super.check();
-    }
-
+public class ArlasPermissionsServerConfiguration extends ArlasConfiguration {
 }

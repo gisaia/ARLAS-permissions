@@ -45,7 +45,7 @@ swagger: # Configuration of SWAGGER for generating documentation and APIs
   resourcePackage: io.arlas.permissions.rest # The java package to process for extracting the APIs
   # temporary patch for bug https://github.com/smoketurner/dropwizard-swagger/issues/206
   # to be removed when version of dropwizard.swagger.version is upgraded
-  customJavascript: "/arlas_permissions_server/swagger-static/custom-request-interceptor.js"
+  customJavascript: ${ARLAS_PERMISSIONS_CUSTOM_JS:-/arlas_permissions_server/swagger-static/custom-request-interceptor.js}
 
 ########################################################
 ############ ZIPKIN                      ###############
@@ -66,28 +66,7 @@ arlas_cors:
   allowed_credentials: ${ARLAS_CORS_ALLOWED_CREDENTIALS:-true}
   exposed_headers: ${ARLAS_CORS_EXPOSED_HEADERS:-"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,Location,WWW-Authenticate"}
 
-arlas_auth:
-  enabled: ${ARLAS_AUTH_ENABLED:-false}
-  public_uris: [${ARLAS_AUTH_PUBLIC_URIS:-swagger.*:*,persist.*:GET}]
-  # deprecated
-  certificate_file: ${ARLAS_AUTH_CERT_FILE:-/opt/app/arlas.pem}
-  certificate_url: ${ARLAS_AUTH_CERT_URL:-}
-  header_user: ${ARLAS_HEADER_USER:-arlas-user}
-  header_group: ${ARLAS_HEADER_GROUP:-arlas-groups}
-  claim_roles: ${ARLAS_CLAIM_ROLES:-http://arlas.io/roles}
-  claim_permissions: ${ARLAS_CLAIM_PERMISSIONS:-http://arlas.io/permissions}
-
 # The following configuration is not used but required by the ArlasBaseConfiguration class
-elastic:
-  elastic-nodes: ${ARLAS_ELASTIC_NODES:-localhost:9200}
-  elastic-sniffing: ${ARLAS_ELASTIC_SNIFFING:-false}
-  elastic-enable-ssl: ${ARLAS_ELASTIC_ENABLE_SSL:-false}
-  elastic-credentials: ${ARLAS_ELASTIC_CREDENTIALS}
-  elastic-skip-master: ${ARLAS_ELASTIC_SKIP_MASTER:-true}
-
-arlas_database_factory_class: ${ARLAS_PERMISSIONS_DATABASE_FACTORY_CLASS:-io.arlas.permissions.server.impl.ElasticDatabaseToolsFactory}
-arlas_cache_factory_class: ${ARLAS_PERMISSIONS_CACHE_FACTORY_CLASS:-io.arlas.permissions.server.impl.HazelcastCacheFactory}
-
 database:
   driverClass: do.not.set
   user: ${ARLAS_JDBC_USER:-postgres}
@@ -110,3 +89,8 @@ database:
   evictionInterval: 10s
   # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
   minIdleTime: 1 minute
+
+########################################################
+############ AUTHENTICATION              ###############
+########################################################
+arlas_auth_policy_class: ${ARLAS_AUTH_POLICY_CLASS:-io.arlas.commons.rest.auth.NoPolicyEnforcer}

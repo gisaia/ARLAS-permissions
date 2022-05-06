@@ -5,7 +5,7 @@ services:
     build:
       context: ../..
       dockerfile: ${DOCKERFILE:-docker/docker-files/Dockerfile-package-only}
-    image: gisaia/arlas-permissions-server:${ARLAS_VERSION:-latest}
+    image: gisaia/arlas-permissions-server:${ARLAS_PERMISSIONS_SERVER_VERSION:-latest}
     container_name: arlas-permissions-server
     environment:
       - ARLAS_PERMISSIONS_PORT="${ARLAS_PERMISSIONS_PORT:-9997}"

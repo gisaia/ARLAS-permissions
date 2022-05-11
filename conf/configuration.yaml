@@ -66,31 +66,9 @@ arlas_cors:
   allowed_credentials: ${ARLAS_CORS_ALLOWED_CREDENTIALS:-true}
   exposed_headers: ${ARLAS_CORS_EXPOSED_HEADERS:-"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,Location,WWW-Authenticate"}
 
-# The following configuration is not used but required by the ArlasBaseConfiguration class
-database:
-  driverClass: do.not.set
-  user: ${ARLAS_JDBC_USER:-postgres}
-  password: ${ARLAS_JDBC_PASSWORD:-postgres}
-  url: ${ARLAS_JDBC_URL:-localhost:5432/arlas}
-  # any properties specific to your JDBC driver:
-  properties:
-    charSet: UTF-8
-  # the maximum amount of time to wait on an empty pool before throwing an exception
-  maxWaitForConnection: 1s
-  # the SQL query to run when validating a connection's liveness
-  validationQuery: "/* MyApplication Health Check */ SELECT 1"
-  # the minimum number of connections to keep open
-  minSize: 8
-  # the maximum number of connections to keep open
-  maxSize: 32
-  # whether or not idle connections should be validated
-  checkConnectionWhileIdle: false
-  # the amount of time to sleep between runs of the idle connection validation, abandoned cleaner and idle pool resizing
-  evictionInterval: 10s
-  # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
-  minIdleTime: 1 minute
-
 ########################################################
 ############ AUTHENTICATION              ###############
 ########################################################
 arlas_auth_policy_class: ${ARLAS_AUTH_POLICY_CLASS:-io.arlas.commons.rest.auth.NoPolicyEnforcer}
+arlas_cache_factory_class: ${ARLAS_PERMISSIONS_CACHE_FACTORY_CLASS:-io.arlas.commons.cache.NoCacheFactory}
+arlas-cache-timeout: ${ARLAS_CACHE_TIMEOUT:-60}

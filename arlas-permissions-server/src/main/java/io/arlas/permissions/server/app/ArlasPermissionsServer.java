@@ -26,6 +26,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.smoketurner.dropwizard.zipkin.ZipkinBundle;
 import com.smoketurner.dropwizard.zipkin.ZipkinFactory;
+import io.arlas.commons.cache.CacheFactory;
+import io.arlas.commons.config.ArlasConfiguration;
 import io.arlas.commons.config.ArlasCorsConfiguration;
 import io.arlas.commons.exceptions.ArlasExceptionMapper;
 import io.arlas.commons.exceptions.ConstraintViolationExceptionMapper;
@@ -100,9 +102,15 @@ public class ArlasPermissionsServer extends Application<io.arlas.permissions.ser
         environment.jersey().register(new JsonProcessingExceptionMapper());
         environment.jersey().register(new ConstraintViolationExceptionMapper());
 
+        CacheFactory cacheFactory = (CacheFactory) Class
+                .forName(configuration.arlasCacheFactoryClass)
+                .getConstructor(ArlasConfiguration.class)
+                .newInstance(configuration);
+
         // Auth
         PolicyEnforcer policyEnforcer = PolicyEnforcer.newInstance(configuration.arlasAuthPolicyClass)
-                .setAuthConf(configuration.arlasAuthConfiguration);
+                .setAuthConf(configuration.arlasAuthConfiguration)
+                .setCacheManager(cacheFactory.getCacheManager());
         LOGGER.info("PolicyEnforcer: " + policyEnforcer.getClass().getCanonicalName());
         environment.jersey().register(policyEnforcer);
 

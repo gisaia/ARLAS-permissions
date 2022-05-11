@@ -37,7 +37,7 @@ docker run --rm \
     -w /opt/maven \
 	-v $PWD:/opt/maven \
 	-v $HOME/.m2:/root/.m2 \
-	maven:3.8.4-openjdk-17 \
+	maven:3.8.5-openjdk-17 \
 	mvn clean install
 echo "arlas-permissions-server:${ARLAS_PERMISSIONS_SERVER_VERSION}"
 

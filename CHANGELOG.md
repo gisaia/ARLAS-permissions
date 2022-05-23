@@ -1,5 +1,9 @@
 # Change Log
 
+## [v22.0.0](https://github.com/gisaia/ARLAS-permissions/tree/v22.0.0) (2022-05-23)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v22.0.0-beta.4...v22.0.0)
+
 ## [v22.0.0-beta.4](https://github.com/gisaia/ARLAS-permissions/tree/v22.0.0-beta.4) (2022-05-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v22.0.0-beta.2...v22.0.0-beta.4)

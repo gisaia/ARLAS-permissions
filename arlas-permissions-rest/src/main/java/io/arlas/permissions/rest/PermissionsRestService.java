@@ -20,8 +20,8 @@
 package io.arlas.permissions.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import io.arlas.commons.rest.auth.RuleClaim;
 import io.arlas.commons.rest.utils.ResponseFormatter;
+import io.arlas.filter.core.RuleClaim;
 import io.arlas.permissions.model.Resource;
 import io.arlas.permissions.server.app.Documentation;
 import io.swagger.annotations.*;

@@ -21,7 +21,7 @@
         <skipTests>true</skipTests>
         <surefire.version>2.22.2</surefire.version>
 
-        <arlas-commons.version>22.0.0</arlas-commons.version>
+        <arlas-commons.version>22.0.1</arlas-commons.version>
         <log4j.version>2.17.2</log4j.version>
         <!-- TESTS -->
         <junit.version>4.13.2</junit.version>

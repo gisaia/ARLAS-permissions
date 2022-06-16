@@ -19,4 +19,3 @@ services:
       - ARLAS_CACHE_TIMEOUT="${ARLAS_CACHE_TIMEOUT:-5}"
     ports:
       - 19997:9997
-    command: ["/opt/app/start.sh"]

@@ -26,7 +26,7 @@
         <!-- TESTS -->
         <junit.version>4.13.2</junit.version>
         <org.hamcrest.version>2.2</org.hamcrest.version>
-        <io.rest-assured.version>5.0.1</io.rest-assured.version>
+        <io.rest-assured.version>5.1.1</io.rest-assured.version>
 
         <!-- DOCUMENTATION GENERATION-->
         <swagger2markup.version>1.3.4</swagger2markup.version>

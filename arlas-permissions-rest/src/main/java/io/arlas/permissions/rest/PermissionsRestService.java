@@ -20,6 +20,7 @@
 package io.arlas.permissions.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import io.arlas.commons.rest.response.Error;
 import io.arlas.commons.rest.utils.ResponseFormatter;
 import io.arlas.filter.core.RuleClaim;
 import io.arlas.permissions.model.Resource;

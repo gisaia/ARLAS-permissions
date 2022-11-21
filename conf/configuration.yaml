@@ -47,17 +47,6 @@ swagger: # Configuration of SWAGGER for generating documentation and APIs
   # to be removed when version of dropwizard.swagger.version is upgraded
   customJavascript: ${ARLAS_PERMISSIONS_CUSTOM_JS:-/arlas_permissions_server/swagger-static/custom-request-interceptor.js}
 
-########################################################
-############ ZIPKIN                      ###############
-########################################################
-# Zipkin let you analyze the API calls
-zipkin: # The ZIPIN configuration, not active by default
-  enabled: ${ARLAS_PERMISSIONS_ZIPKIN_ENABLED:-false} # Do we want zipkin to collect the API calls? Not by default.
-  serviceHost: ${ARLAS_PERMISSIONS_ZIPKIN_SERVICE_HOST:-127.0.0.1} # Listening IP address of the service
-  servicePort: ${ARLAS_PERMISSIONS_PORT:-9997} # Listening port of the service
-  collector: ${ARLAS_PERMISSIONS_ZIPKIN_COLLECTOR:-http}
-  baseUrl: ${ARLAS_PERMISSIONS_ZIPKIN_BASEURL:-http://localhost:9411} # Where is zipkin running?
-
 arlas_cors:
   enabled: ${ARLAS_CORS_ENABLED:-true}
   allowed_origins: ${ARLAS_CORS_ALLOWED_ORIGINS:-"*"}

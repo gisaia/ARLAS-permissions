@@ -19,13 +19,10 @@
 
 package io.arlas.permissions.server.app;
 
-import brave.http.HttpTracing;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.smoketurner.dropwizard.zipkin.ZipkinBundle;
-import com.smoketurner.dropwizard.zipkin.ZipkinFactory;
 import io.arlas.commons.cache.CacheFactory;
 import io.arlas.commons.config.ArlasConfiguration;
 import io.arlas.commons.config.ArlasCorsConfiguration;
@@ -54,7 +51,6 @@ import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 import javax.ws.rs.core.HttpHeaders;
 import java.util.EnumSet;
-import java.util.Optional;
 
 public class ArlasPermissionsServer extends Application<io.arlas.permissions.server.app.ArlasPermissionsServerConfiguration> {
     Logger LOGGER = LoggerFactory.getLogger(ArlasPermissionsServer.class);
@@ -75,12 +71,6 @@ public class ArlasPermissionsServer extends Application<io.arlas.permissions.ser
                 return configuration.swaggerBundleConfiguration;
             }
         });
-        bootstrap.addBundle(new ZipkinBundle<>(getName()) {
-            @Override
-            public ZipkinFactory getZipkinFactory(io.arlas.permissions.server.app.ArlasPermissionsServerConfiguration configuration) {
-                return configuration.zipkinConfiguration;
-            }
-        });
         bootstrap.addBundle(new AssetsBundle("/assets/", "/", "index.html"));
     }
 
@@ -89,10 +79,6 @@ public class ArlasPermissionsServer extends Application<io.arlas.permissions.ser
 
         configuration.check();
         LOGGER.info("Checked configuration: " + (new ObjectMapper()).writer().writeValueAsString(configuration));
-
-        if (configuration.zipkinConfiguration != null) {
-            Optional<HttpTracing> tracing = configuration.zipkinConfiguration.build(environment);
-        }
 
         environment.getObjectMapper().setSerializationInclusion(Include.NON_NULL);
         environment.getObjectMapper().configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);

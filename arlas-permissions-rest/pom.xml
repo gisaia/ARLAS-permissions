@@ -6,21 +6,21 @@
 
     <groupId>io.arlas</groupId>
     <artifactId>arlas-permissions-rest</artifactId>
-    <version>23.0.2</version>
+    <version>23.0.3-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>ARLAS permissions server rest</name>
 
     <parent>
         <groupId>io.arlas</groupId>
         <artifactId>arlas-permissions-parent</artifactId>
-        <version>23.0.2</version>
+        <version>23.0.3-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>io.arlas</groupId>
             <artifactId>arlas-permissions-core</artifactId>
-            <version>23.0.2</version>
+            <version>23.0.3-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

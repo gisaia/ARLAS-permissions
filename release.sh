@@ -187,6 +187,10 @@ mkdir -p target/tmp || echo "target/tmp exists"
 i=1; until curl -XGET http://${DOCKER_IP}:19997/arlas_permissions_server/swagger.json -o target/tmp/swagger.json; do if [ $i -lt 60 ]; then sleep 1; else break; fi; i=$(($i + 1)); done
 i=1; until curl -XGET http://${DOCKER_IP}:19997/arlas_permissions_server/swagger.yaml -o target/tmp/swagger.yaml; do if [ $i -lt 60 ]; then sleep 1; else break; fi; i=$(($i + 1)); done
 
+mkdir -p openapi
+cp target/tmp/swagger.yaml openapi
+cp target/tmp/swagger.json openapi
+
 echo "=> Stop arlas-permissions-server stack"
 docker-compose -f ${DOCKER_COMPOSE} --project-name arlas down -v
 
@@ -301,6 +305,8 @@ if [ "$RELEASE" == "YES" ]; then
     git push origin :v${ARLAS_permissions_VERSION}
     echo "=> Commit release version"
     git add docs/api
+    git add openapi/swagger.json
+    git add openapi/swagger.yaml
     git commit -a -m "release version ${ARLAS_permissions_VERSION}"
     git tag v${ARLAS_permissions_VERSION}
     git push origin v${ARLAS_permissions_VERSION}
@@ -325,6 +331,10 @@ echo "=> Update REST API version in JAVA source code"
 sed -i.bak 's/\"'${FULL_API_VERSION}'\"/\"API_VERSION\"/' arlas-permissions-rest/src/main/java/io/arlas/permissions/rest/PermissionsRestService.java
 
 if [ "$RELEASE" == "YES" ]; then
+    sed -i.bak 's/\"'${FULL_API_VERSION}'\"/\"'${API_DEV_VERSION}-SNAPSHOT'\"/' openapi/swagger.yaml
+    sed -i.bak 's/\"'${FULL_API_VERSION}'\"/\"'${API_DEV_VERSION}-SNAPSHOT'\"/' openapi/swagger.json
+    git add openapi/swagger.json
+    git add openapi/swagger.yaml
     git commit -a -m "development version ${ARLAS_DEV_VERSION}-SNAPSHOT"
     git push origin develop
 else echo "=> Skip git push develop"; fi

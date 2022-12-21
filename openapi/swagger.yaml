@@ -2,7 +2,7 @@
 swagger: "2.0"
 info:
   description: "permissions REST services"
-  version: "API_VERSION"
+  version: "23.0.3"
   title: "ARLAS permissions API"
   contact:
     name: "Gisaia"

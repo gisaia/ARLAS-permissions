@@ -74,19 +74,13 @@ docker run --rm \
 
 echo "=> Generate API documentation"
 docker run --rm \
-    -w /opt/maven \
-	-v $PWD:/opt/maven \
-	-v $HOME/.m2:/root/.m2 \
-	maven:3.8.5-openjdk-17 \
-    mvn swagger2markup:convertSwagger2markup post-integration-test
-docker run --rm \
     -v $PWD:/opt/maven \
 	-v $HOME/.m2:/root/.m2 \
 	busybox \
-        sh -c 'cat /opt/maven/target/generated-docs/overview.md > /opt/maven/target/generated-docs/permissions_reference.md \
-        && cat /opt/maven/target/generated-docs/paths.md >> /opt/maven/target/generated-docs/permissions_reference.md \
-        && cat /opt/maven/target/generated-docs/definitions.md >> /opt/maven/target/generated-docs/permissions_reference.md \
-        && cat /opt/maven/target/generated-docs/security.md >> /opt/maven/target/generated-docs/permissions_reference.md'
+        sh -c 'cat /opt/maven/docs/api/overview.md > /opt/maven/target/generated-docs/permissions_reference.md \
+        && cat /opt/maven/docs/api/paths.md >> /opt/maven/target/generated-docs/permissions_reference.md \
+        && cat /opt/maven/docs/api/definitions.md >> /opt/maven/target/generated-docs/permissions_reference.md \
+        && cat /opt/maven/docs/api/security.md >> /opt/maven/target/generated-docs/permissions_reference.md'
 
 echo "=> Copy CHANGELOG.md"
 docker run --rm \

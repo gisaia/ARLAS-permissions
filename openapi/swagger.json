@@ -2,7 +2,7 @@
   "swagger" : "2.0",
   "info" : {
     "description" : "permissions REST services",
-    "version" : "23.0.5",
+    "version" : "23.0.6-SNAPSHOT",
     "title" : "ARLAS permissions API",
     "contact" : {
       "name" : "Gisaia",

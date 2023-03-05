@@ -7,7 +7,7 @@ permissions REST services
 
 
 ### Version information
-*Version* : 23.0.4
+*Version* : 23.0.5
 
 
 ### Contact information

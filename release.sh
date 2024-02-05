@@ -254,28 +254,28 @@ else
   else echo "=> Skip npm api publish"; fi
 
 
-  echo "=> Build Python API "${FULL_API_VERSION}
-  cd ${BASEDIR}/target/tmp/python-api/
-  cp ${BASEDIR}/conf/python/setup.py setup.py
-  sed -i.bak 's/\"api_permissions_version\"/\"'${FULL_API_VERSION}'\"/' setup.py
+#  echo "=> Build Python API "${FULL_API_VERSION}
+#  cd ${BASEDIR}/target/tmp/python-api/
+#  cp ${BASEDIR}/conf/python/setup.py setup.py
+#  sed -i.bak 's/\"api_permissions_version\"/\"'${FULL_API_VERSION}'\"/' setup.py
+#
+#  docker run \
+#        -e GROUP_ID="$(id -g)" \
+#        -e USER_ID="$(id -u)" \
+#        --mount dst=/opt/python,src="$PWD",type=bind \
+#        --rm \
+#        gisaia/python-3-alpine \
+#              setup.py sdist bdist_wheel
 
-  docker run \
-        -e GROUP_ID="$(id -g)" \
-        -e USER_ID="$(id -u)" \
-        --mount dst=/opt/python,src="$PWD",type=bind \
-        --rm \
-        gisaia/python-3-alpine \
-              setup.py sdist bdist_wheel
-
-  echo "=> Publish Python API "
-  if [ "$RELEASE" == "YES" ]; then
-      docker run --rm \
-          -w /opt/python \
-        -v $PWD:/opt/python \
-        python:3 \
-        /bin/bash -c  "pip install twine ; twine upload dist/* -u ${PIP_LOGIN} -p ${PIP_PASSWORD}"
-       ### At this stage username and password of Pypi repository should be set
-  else echo "=> Skip python api publish"; fi
+#  echo "=> Publish Python API "
+#  if [ "$RELEASE" == "YES" ]; then
+#      docker run --rm \
+#          -w /opt/python \
+#        -v $PWD:/opt/python \
+#        python:3 \
+#        /bin/bash -c  "pip install twine ; twine upload dist/* -u ${PIP_LOGIN} -p ${PIP_PASSWORD}"
+#       ### At this stage username and password of Pypi repository should be set
+#  else echo "=> Skip python api publish"; fi
 fi
 
 cd ${BASEDIR}

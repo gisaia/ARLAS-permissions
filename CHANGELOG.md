@@ -1,5 +1,9 @@
 # Change Log
 
+## [v24.0.5](https://github.com/gisaia/ARLAS-permissions/tree/v24.0.5) (2024-02-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v24.0.4...v24.0.5)
+
 ## [v24.0.4](https://github.com/gisaia/ARLAS-permissions/tree/v24.0.4) (2023-12-11)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v24.0.2...v24.0.4)

@@ -223,16 +223,6 @@ else
     gisaia/swagger-codegen-2.3.1 \
           -l typescript-fetch --additional-properties modelPropertyNaming=snake_case
 
-  mkdir -p target/tmp/python-api
-  docker run --rm \
-      -e GROUP_ID="$(id -g)" \
-      -e USER_ID="$(id -u)" \
-      --mount dst=/input/api.json,src="$PWD/target/tmp/swagger.json",type=bind,ro \
-      --mount dst=/input/config.json,src="$PROJECT_ROOT_DIRECTORY/conf/swagger/python-config.json",type=bind,ro \
-      --mount dst=/output,src="$PWD/target/tmp/python-api",type=bind \
-    gisaia/swagger-codegen-2.2.3 \
-          -l python --type-mappings GeoJsonObject=object
-
   echo "=> Build Typescript API "${FULL_API_VERSION}
   cd ${BASEDIR}/target/tmp/typescript-fetch/
   cp ${BASEDIR}/conf/npm/package-build.json package.json

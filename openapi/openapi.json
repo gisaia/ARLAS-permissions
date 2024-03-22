@@ -1,0 +1,112 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "ARLAS Permissions APIs",
+    "description" : "Get a list of authorized endpoints/verbs for authenticated users.",
+    "contact" : {
+      "name" : "Gisaia",
+      "url" : "http://www.gisaia.com/",
+      "email" : "contact@gisaia.com"
+    },
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "https://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version" : "25.0.0-beta.2"
+  },
+  "externalDocs" : {
+    "description" : "API documentation",
+    "url" : "https://docs.arlas.io/arlas-api/"
+  },
+  "servers" : [ {
+    "url" : "/arlas_permissions_server",
+    "description" : "default server"
+  } ],
+  "tags" : [ {
+    "name" : "authorize",
+    "description" : "Permissions API"
+  } ],
+  "paths" : {
+    "/authorize/resources" : {
+      "get" : {
+        "tags" : [ "authorize" ],
+        "summary" : "Returns a list of permissions for the current context/user",
+        "description" : "Returns a list of permissions for the current context/user",
+        "operationId" : "get",
+        "parameters" : [ {
+          "name" : "filter",
+          "in" : "query",
+          "description" : "A regex to apply to permissions uris in order to filter the returned list.",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pretty",
+          "in" : "query",
+          "description" : "Pretty print",
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json;charset=utf-8" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Resource"
+                  }
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "Arlas Permissions Error.",
+            "content" : {
+              "application/json;charset=utf-8" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Resource" : {
+        "required" : [ "path", "verb" ],
+        "type" : "object",
+        "properties" : {
+          "verb" : {
+            "type" : "string"
+          },
+          "path" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Error" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "error" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}

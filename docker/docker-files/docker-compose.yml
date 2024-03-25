@@ -19,3 +19,8 @@ services:
       - ARLAS_CACHE_TIMEOUT="${ARLAS_CACHE_TIMEOUT:-5}"
     ports:
       - 19997:9997
+    healthcheck:
+      test: ["CMD","java","HttpHealthcheck.java","http://localhost:9997/admin/healthcheck"]
+      interval: 5s
+      timeout: 10s
+      retries: 3

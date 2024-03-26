@@ -7,6 +7,7 @@ services:
       dockerfile: ${DOCKERFILE:-docker/docker-files/Dockerfile-package-only}
     image: gisaia/arlas-permissions-server:${ARLAS_PERMISSIONS_SERVER_VERSION:-latest}
     container_name: arlas-permissions-server
+    restart: always
     environment:
       - ARLAS_PERMISSIONS_PORT="${ARLAS_PERMISSIONS_PORT:-9997}"
       - ARLAS_PERMISSIONS_PREFIX="${ARLAS_PERMISSIONS_PREFIX:-/arlas_permissions_server}"
@@ -18,7 +19,7 @@ services:
       - ARLAS_PERMISSIONS_CACHE_FACTORY_CLASS="${ARLAS_PERMISSIONS_CACHE_FACTORY_CLASS:-io.arlas.commons.cache.BaseHazelcastCacheFactory}"
       - ARLAS_CACHE_TIMEOUT="${ARLAS_CACHE_TIMEOUT:-5}"
     ports:
-      - 19997:9997
+      - "19997:9997" # !EXPOSE!
     healthcheck:
       test: ["CMD","java","HttpHealthcheck.java","http://localhost:9997/admin/healthcheck"]
       interval: 5s

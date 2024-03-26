@@ -16,7 +16,7 @@ services:
       - ARLAS_AUTH_POLICY_CLASS="${ARLAS_AUTH_POLICY_CLASS:-io.arlas.filter.impl.NoPolicyEnforcer}"
       - ARLAS_AUTH_PERMISSION_URL="${ARLAS_AUTH_PERMISSION_URL:-http://arlas-iam-server:9990/arlas_iam_server/permissions}"
       - ARLAS_AUTH_CERT_URL="${ARLAS_AUTH_CERT_URL}"
-      - ARLAS_PERMISSIONS_CACHE_FACTORY_CLASS="${ARLAS_PERMISSIONS_CACHE_FACTORY_CLASS:-io.arlas.commons.cache.BaseHazelcastCacheFactory}"
+      - ARLAS_PERMISSIONS_CACHE_FACTORY_CLASS="${ARLAS_PERMISSIONS_CACHE_FACTORY_CLASS:-io.arlas.commons.cache.NoCacheFactory}"
       - ARLAS_CACHE_TIMEOUT="${ARLAS_CACHE_TIMEOUT:-5}"
     ports:
       - "19997:9997" # !EXPOSE!

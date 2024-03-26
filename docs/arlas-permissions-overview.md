@@ -20,9 +20,9 @@ The monitoring API provides some information about the health and the performanc
 
 ## Swagger
 
-| URL | Description |
-| --- | --- |
-| http://.../arlas_permissions_server/swagger  | The web application for testing the API  |
-| http://.../arlas_permissions_server/swagger.yaml  | The swagger definition of the collections/exploration API with YAML format |
-| http://.../arlas_permissions_server/swagger.json  | The swagger definition of the collections/exploration API with JSON format |
+| URL                                              | Description                                                    |
+|--------------------------------------------------|----------------------------------------------------------------|
+| http://.../arlas_permissions_server/swagger      | The web application for testing the API                        |
+| http://.../arlas_permissions_server/openapi.yaml | The swagger definition of the permissions API with YAML format |
+| http://.../arlas_permissions_server/openapi.json | The swagger definition of the permissions API with JSON format |
 

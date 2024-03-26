@@ -25,30 +25,46 @@ import io.arlas.commons.rest.utils.ResponseFormatter;
 import io.arlas.filter.core.RuleClaim;
 import io.arlas.permissions.model.Resource;
 import io.arlas.permissions.server.app.Documentation;
-import io.swagger.annotations.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import io.swagger.v3.oas.annotations.ExternalDocumentation;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.info.Contact;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.info.License;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Path("/authorize")
-@Api(value = "/authorize")
-@SwaggerDefinition(
-        info = @Info(contact = @Contact(email = "contact@gisaia.com", name = "Gisaia", url = "http://www.gisaia.com/"),
-                title = "ARLAS permissions API",
-                description = "permissions REST services",
+@Tag(name="authorize", description="Permissions API")
+@OpenAPIDefinition(
+        info = @Info(
+                title = "ARLAS Permissions APIs",
+                description = "Get a list of authorized endpoints/verbs for authenticated users.",
                 license = @License(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0.html"),
+                contact = @Contact(email = "contact@gisaia.com", name = "Gisaia", url = "http://www.gisaia.com/"),
                 version = "API_VERSION"),
-        schemes = { SwaggerDefinition.Scheme.HTTP, SwaggerDefinition.Scheme.HTTPS })
-
+        externalDocs = @ExternalDocumentation(
+                description = "API documentation",
+                url="https://docs.arlas.io/arlas-api/"),
+        servers = {
+                @Server(url = "/arlas_permissions_server", description = "default server")
+        }
+)
 public class PermissionsRestService {
-    protected static Logger LOGGER = LoggerFactory.getLogger(PermissionsRestService.class);
     public static final String UTF8JSON = MediaType.APPLICATION_JSON + ";charset=utf-8";
 
     private final List<String> HTTP_VERBS = Arrays.asList(HttpMethod.DELETE, HttpMethod.GET, HttpMethod.HEAD,
@@ -64,27 +80,31 @@ public class PermissionsRestService {
     @GET
     @Produces(UTF8JSON)
     @Consumes(UTF8JSON)
-    @ApiOperation(
-            value = Documentation.GET_OPERATION,
-            produces = UTF8JSON,
-            notes = Documentation.GET_OPERATION,
-            consumes = UTF8JSON
+    @Operation(
+            summary = Documentation.GET_OPERATION,
+            description = Documentation.GET_OPERATION
     )
-    @ApiResponses(value = {@ApiResponse(code = 200, message = "Successful operation", response = Resource.class, responseContainer = "List"),
-            @ApiResponse(code = 500, message = "Arlas Permissions Error.", response = Error.class)})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful operation",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = Resource.class)))),
+            @ApiResponse(responseCode = "500", description = "Arlas Permissions Error.",
+                    content = @Content(schema = @Schema(implementation = Error.class)))
+    })
 
     public Response get(
             @Context HttpServletRequest request,
 
-            @ApiParam(name = "filter", value = Documentation.FILTER,
+            @Parameter(name = "filter",
+                    description = Documentation.FILTER,
                     required = true)
             @QueryParam(value = "filter") String filter,
 
             // --------------------------------------------------------
             // ----------------------- FORM -----------------------
             // --------------------------------------------------------
-            @ApiParam(name = "pretty", value = Documentation.FORM_PRETTY,
-                    defaultValue = "false")
+            @Parameter(name = "pretty",
+                    description = Documentation.FORM_PRETTY,
+                    schema = @Schema(defaultValue = "false"))
             @QueryParam(value = "pretty") Boolean pretty
     ) {
         List<Resource> result = new ArrayList<>();

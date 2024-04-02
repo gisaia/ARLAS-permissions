@@ -4,7 +4,7 @@
 
     <groupId>io.arlas</groupId>
     <artifactId>arlas-permissions-parent</artifactId>
-    <version>24.0.6-SNAPSHOT</version>
+    <version>25.0.0-beta.6</version>
     <packaging>pom</packaging>
     <name>ARLAS permissions parent</name>
 
@@ -21,7 +21,7 @@
         <skipTests>true</skipTests>
         <surefire.version>2.22.2</surefire.version>
 
-        <arlas-commons.version>25.0.0-beta.4</arlas-commons.version>
+        <arlas-commons.version>25.0.0-beta.6</arlas-commons.version>
         <log4j.version>2.23.1</log4j.version>
         <!-- TESTS -->
         <junit.version>4.13.2</junit.version>

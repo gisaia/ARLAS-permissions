@@ -1,5 +1,21 @@
 # Change Log
 
+## [v25.0.0-rc.2](https://github.com/gisaia/ARLAS-permissions/tree/v25.0.0-rc.2) (2024-05-06)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v25.0.0-beta.6...v25.0.0-rc.2)
+
+## [v25.0.0-beta.6](https://github.com/gisaia/ARLAS-permissions/tree/v25.0.0-beta.6) (2024-04-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v25.0.0-beta.2...v25.0.0-beta.6)
+
+## [v25.0.0-beta.2](https://github.com/gisaia/ARLAS-permissions/tree/v25.0.0-beta.2) (2024-03-22)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v25.0.0-beta.1...v25.0.0-beta.2)
+
+## [v25.0.0-beta.1](https://github.com/gisaia/ARLAS-permissions/tree/v25.0.0-beta.1) (2024-03-18)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v24.0.5...v25.0.0-beta.1)
+
 ## [v24.0.5](https://github.com/gisaia/ARLAS-permissions/tree/v24.0.5) (2024-02-05)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v24.0.4...v24.0.5)

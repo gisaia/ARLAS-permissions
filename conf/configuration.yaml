@@ -43,9 +43,12 @@ logging:
 
 swagger: # Configuration of SWAGGER for generating documentation and APIs
   resourcePackage: io.arlas.permissions.rest # The java package to process for extracting the APIs
-  # temporary patch for bug https://github.com/smoketurner/dropwizard-swagger/issues/206
-  # to be removed when version of dropwizard.swagger.version is upgraded
-  customJavascript: ${ARLAS_PERMISSIONS_CUSTOM_JS:-/arlas_permissions_server/swagger-static/custom-request-interceptor.js}
+  # not supported in 3.0.0-1 but PR existing and merged
+  servers:
+  - url: ${ARLAS_PERMISSIONS_PREFIX:-/arlas_permissions_server}
+    description: "Backend server from client browser"
+  - url: http://arlas-permissions-server{ARLAS_PERMISSIONS_PREFIX:-/arlas_permissions_server}
+    description: "Backend server from docker network"
 
 arlas_cors:
   enabled: ${ARLAS_CORS_ENABLED:-true}

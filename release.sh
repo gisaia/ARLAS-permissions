@@ -1,6 +1,8 @@
 #!/bin/bash
 set -o errexit -o pipefail
 
+export RELEASE_COMMAND_LINE="$0 $*"
+
 SCRIPT_DIRECTORY="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
 PROJECT_ROOT_DIRECTORY="$SCRIPT_DIRECTORY"
 
@@ -57,6 +59,17 @@ usage(){
 	echo " --release                      publish artifacts and git push local branches"
 	echo " --skip-api                     do not generate clients APIs"
 	exit 1
+}
+
+send_chat_message(){
+    MESSAGE=$1
+    if [ -z "$GOOGLE_CHAT_RELEASE_CHANEL" ] ; then
+        echo "Environement variable GOOGLE_CHAT_RELEASE_CHANEL is not definied ... skipping message publishing"
+    else
+        DATA='{"text":"'${MESSAGE}'"}'
+        echo $DATA
+        curl -X POST --header "Content-Type:application/json" $GOOGLE_CHAT_RELEASE_CHANEL -d "${DATA}"
+    fi
 }
 
 #########################################
@@ -307,4 +320,6 @@ if [ "$RELEASE" == "YES" ]; then
     git add openapi/openapi.yaml
     git commit -a -m "development version ${ARLAS_DEV_VERSION}-SNAPSHOT"
     git push origin develop
+    send_chat_message "Release of ARLAS-permissions, version ${ARLAS_permissions_VERSION}"
+    send_chat_message "${RELEASE_COMMAND_LINE}"
 else echo "=> Skip git push develop"; fi

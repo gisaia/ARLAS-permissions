@@ -20,7 +20,7 @@ DOCKER_COMPOSE="${PROJECT_ROOT_DIRECTORY}/docker/docker-files/docker-compose.yml
 #########################################
 function clean_docker {
     echo "===> Stop arlas-permissions-server stack"
-    docker-compose -f ${DOCKER_COMPOSE} --project-name arlas down -v
+    docker compose -f ${DOCKER_COMPOSE} --project-name arlas down -v
 }
 
 function clean_exit {
@@ -187,7 +187,7 @@ fi
 
 echo "=> Start arlas-permissions-server stack"
 export ARLAS_SERVER_NODE=""
-docker-compose -f ${DOCKER_COMPOSE} --project-name arlas up -d --build
+docker compose -f ${DOCKER_COMPOSE} --project-name arlas up -d --build
 DOCKER_IP=$(docker-machine ip || echo "localhost")
 
 echo "=> Wait for arlas-permissions-server up and running"
@@ -203,7 +203,7 @@ cp target/tmp/openapi.yaml openapi
 cp target/tmp/openapi.json openapi
 
 echo "=> Stop arlas-permissions-server stack"
-docker-compose -f ${DOCKER_COMPOSE} --project-name arlas down -v
+docker compose -f ${DOCKER_COMPOSE} --project-name arlas down -v
 
 echo "=> Generate API documentation"
 mkdir -p docs/api

@@ -19,7 +19,15 @@
 
 package io.arlas.permissions.rest;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 import com.codahale.metrics.annotation.Timed;
+
 import io.arlas.commons.rest.response.Error;
 import io.arlas.commons.rest.utils.ResponseFormatter;
 import io.arlas.filter.core.RuleClaim;
@@ -39,14 +47,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.servers.Server;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.ws.rs.*;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.HttpMethod;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Path("/authorize")
 @Tag(name="authorize", description="Permissions API")
@@ -56,7 +66,7 @@ import java.util.stream.Collectors;
                 description = "Get a list of authorized endpoints/verbs for authenticated users.",
                 license = @License(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0.html"),
                 contact = @Contact(email = "contact@gisaia.com", name = "Gisaia", url = "http://www.gisaia.com/"),
-                version = "26.0.0"),
+                version = "API_VERSION"),
         externalDocs = @ExternalDocumentation(
                 description = "API documentation",
                 url="https://docs.arlas.io/arlas-api/"),

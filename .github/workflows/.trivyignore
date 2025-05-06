@@ -4,3 +4,5 @@ CVE-2023-45853
 CVE-2024-52533
 # need keycloak dependecy update to 26.0.6 
 CVE-2024-10039
+# will not fix
+CVE-2024-8176

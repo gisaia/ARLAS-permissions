@@ -18,7 +18,7 @@ DOCKER_COMPOSE="${PROJECT_ROOT_DIRECTORY}/docker/docker-files/docker-compose.yml
 #########################################
 function clean_docker {
     echo "===> Stop arlas-permissions-server stack"
-    docker-compose -f ${DOCKER_COMPOSE} --project-name arlas down -v
+    docker compose -f ${DOCKER_COMPOSE} --project-name arlas down -v
 }
 
 function clean_exit {
@@ -28,7 +28,7 @@ function clean_exit {
 	rm -rf target/tmp || echo "target/tmp already removed"
 	clean_docker
 	if [ "$RELEASE" == "YES" ]; then
-        git checkout -- .
+        git checkout support/24.0.x
         mvn clean
     else
         echo "=> Skip discard changes";
@@ -145,12 +145,6 @@ echo "Dev     : ${ARLAS_DEV_VERSION}"
 #### Ongoing release process ############
 #########################################
 
-echo "=> Get develop branch"
-if [ "$RELEASE" == "YES" ]; then
-    git checkout develop
-    git pull origin develop
-else echo "=> Skip develop checkout"; fi
-
 echo "=> Update project version"
 mvn clean
 mvn versions:set -DnewVersion=${ARLAS_permissions_VERSION}
@@ -176,7 +170,7 @@ fi
 
 echo "=> Start arlas-permissions-server stack"
 export ARLAS_SERVER_NODE=""
-docker-compose -f ${DOCKER_COMPOSE} --project-name arlas up -d --build
+docker compose -f ${DOCKER_COMPOSE} --project-name arlas up -d --build
 DOCKER_IP=$(docker-machine ip || echo "localhost")
 
 echo "=> Wait for arlas-permissions-server up and running"
@@ -192,7 +186,7 @@ cp target/tmp/swagger.yaml openapi
 cp target/tmp/swagger.json openapi
 
 echo "=> Stop arlas-permissions-server stack"
-docker-compose -f ${DOCKER_COMPOSE} --project-name arlas down -v
+docker compose -f ${DOCKER_COMPOSE} --project-name arlas down -v
 
 echo "=> Generate API documentation"
 mvn "-Dswagger.output=docs/api" swagger2markup:convertSwagger2markup
@@ -262,7 +256,6 @@ if [ "$RELEASE" == "YES" ]; then
     docker tag gisaia/arlas-permissions-server:latest gisaia/arlas-permissions-server:${ARLAS_permissions_VERSION}
     echo "=> Push arlas-permissions-server docker image"
     docker push gisaia/arlas-permissions-server:${ARLAS_permissions_VERSION}
-    docker push gisaia/arlas-permissions-server:latest
 else echo "=> Skip docker push image"; fi
 
 if [ "$RELEASE" == "YES" ]; then
@@ -287,18 +280,7 @@ if [ "$RELEASE" == "YES" ]; then
     git commit -a -m "release version ${ARLAS_permissions_VERSION}"
     git tag v${ARLAS_permissions_VERSION}
     git push origin v${ARLAS_permissions_VERSION}
-    git push origin develop
-
-    echo "=> Merge develop into master"
-    git checkout master
-    git pull origin master
-    git merge origin/develop
-    git push origin master
-
-    echo "=> Rebase develop"
-    git checkout develop
-    git pull origin develop
-    git rebase origin/master
+    git push origin support/24.0.x
 else echo "=> Skip git push master"; fi
 
 echo "=> Update project version for develop"
@@ -313,5 +295,5 @@ if [ "$RELEASE" == "YES" ]; then
     git add openapi/swagger.json
     git add openapi/swagger.yaml
     git commit -a -m "development version ${ARLAS_DEV_VERSION}-SNAPSHOT"
-    git push origin develop
+    git push origin support/24.0.x
 else echo "=> Skip git push develop"; fi

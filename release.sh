@@ -53,7 +53,6 @@ usage(){
 	echo " -api-major|--api-version       release arlas-permissions-server API major version"
 	echo " -api-minor|--api-minor-version release arlas-permissions-server API minor version"
 	echo " -api-patch|--api-patch-version release arlas-permissions-server API patch version"
-	echo " -rel|--arlas-release           release arlas-server version"
 	echo " -dev|--arlas-dev               development arlas-permissions-server version (-SNAPSHOT qualifier will be automatically added)"
 	echo " --no-tests                     do not run integration tests"
 	echo " --release                      publish artifacts and git push local branches"
@@ -78,10 +77,6 @@ send_chat_message(){
 for i in "$@"
 do
 case $i in
-    -rel=*|--arlas-release=*)
-    ARLAS_REL="${i#*=}"
-    shift # past argument=value
-    ;;
     -dev=*|--arlas-dev=*)
     ARLAS_DEV="${i#*=}"
     shift # past argument=value
@@ -123,7 +118,6 @@ done
 if [ -z ${API_MAJOR_VERSION+x} ]; then usage;  else    echo "API MAJOR version           : ${API_MAJOR_VERSION}"; fi
 if [ -z ${API_MINOR_VERSION+x} ]; then usage;  else    echo "API MINOR version           : ${API_MINOR_VERSION}"; fi
 if [ -z ${API_PATCH_VERSION+x} ]; then usage;  else    echo "API PATCH version           : ${API_PATCH_VERSION}"; fi
-if [ -z ${ARLAS_REL+x} ]; then usage;          else    echo "Release version             : ${ARLAS_REL}"; fi
 if [ -z ${ARLAS_DEV+x} ]; then usage;          else    echo "Next development version    : ${ARLAS_DEV}"; fi
                                                        echo "Running tests               : ${TESTS}"
                                                        echo "Release                     : ${RELEASE}"
@@ -142,8 +136,8 @@ fi
 #########################################
 #### Setting versions ###################
 #########################################
-export ARLAS_permissions_VERSION="${API_MAJOR_VERSION}.0.${ARLAS_REL}"
-ARLAS_DEV_VERSION="${API_MAJOR_VERSION}.0.${ARLAS_DEV}"
+export ARLAS_permissions_VERSION="${API_MAJOR_VERSION}.${API_MINOR_VERSION}.${API_PATCH_VERSION}"
+ARLAS_DEV_VERSION="${API_MAJOR_VERSION}.${API_MINOR_VERSION}.${ARLAS_DEV}"
 FULL_API_VERSION=${API_MAJOR_VERSION}"."${API_MINOR_VERSION}"."${API_PATCH_VERSION}
 API_DEV_VERSION=${API_MAJOR_VERSION}"."${API_MINOR_VERSION}"."${ARLAS_DEV}
 

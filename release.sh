@@ -244,7 +244,7 @@ else
 
 
   if [ "$RELEASE" == "YES" ]; then
-      npm publish --tag v24 || echo "Publishing on npm failed ... continue ..."
+      npm publish || echo "Publishing on npm failed ... continue ..."
   else echo "=> Skip npm api publish"; fi
 
 fi

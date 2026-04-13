@@ -182,7 +182,7 @@ fi
 echo "=> Start arlas-permissions-server stack"
 export ARLAS_SERVER_NODE=""
 docker compose -f ${DOCKER_COMPOSE} --project-name arlas up -d --build
-DOCKER_IP=$(docker-machine ip || echo "localhost")
+DOCKER_IP=$(docker-machine ip 2>/dev/null || echo "localhost")
 
 echo "=> Wait for arlas-permissions-server up and running"
 i=1; until nc -w 2 ${DOCKER_IP} 19997; do if [ $i -lt 30 ]; then sleep 1; else break; fi; i=$(($i + 1)); done

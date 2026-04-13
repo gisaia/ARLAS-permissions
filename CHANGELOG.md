@@ -1,5 +1,33 @@
 # Change Log
 
+## [v27.1.1](https://github.com/gisaia/ARLAS-permissions/tree/v27.1.1) (2026-04-13)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v24.0.10...v27.1.1)
+
+## [v24.0.10](https://github.com/gisaia/ARLAS-permissions/tree/v24.0.10) (2026-04-01)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v27.1.0...v24.0.10)
+
+## [v27.1.0](https://github.com/gisaia/ARLAS-permissions/tree/v27.1.0) (2026-03-30)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v24.0.9...v27.1.0)
+
+## [v24.0.9](https://github.com/gisaia/ARLAS-permissions/tree/v24.0.9) (2026-02-05)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v24.0.8...v24.0.9)
+
+## [v24.0.8](https://github.com/gisaia/ARLAS-permissions/tree/v24.0.8) (2025-10-10)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v24.0.7...v24.0.8)
+
+## [v24.0.7](https://github.com/gisaia/ARLAS-permissions/tree/v24.0.7) (2025-09-02)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v24.0.6...v24.0.7)
+
+## [v24.0.6](https://github.com/gisaia/ARLAS-permissions/tree/v24.0.6) (2025-08-29)
+
+[Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v27.0.1...v24.0.6)
+
 ## [v27.0.1](https://github.com/gisaia/ARLAS-permissions/tree/v27.0.1) (2025-02-24)
 
 [Full Changelog](https://github.com/gisaia/ARLAS-permissions/compare/v26.0.2...v27.0.1)

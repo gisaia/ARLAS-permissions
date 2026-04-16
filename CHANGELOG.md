@@ -1,5 +1,14 @@
 # Change Log
 
+## [v28.0.0-rc.1](https://github.com/gisaia/arlas-permissions/tree/v28.0.0-rc.1) (2026-04-16)
+
+[Full Changelog](https://github.com/gisaia/arlas-permissions/compare/v27.1.4...v28.0.0-rc.1)
+
+**Miscellaneous:**
+
+- Add send message on chat when release [\#49](https://github.com/gisaia/ARLAS-permissions/issues/49)
+- implement the release script in github actions [\#46](https://github.com/gisaia/ARLAS-permissions/issues/46)
+
 ## [v27.1.4](https://github.com/gisaia/arlas-permissions/tree/v27.1.4) (2026-04-15)
 
 [Full Changelog](https://github.com/gisaia/arlas-permissions/compare/v27.1.3...v27.1.4)

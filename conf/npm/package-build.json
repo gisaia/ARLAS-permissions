@@ -3,7 +3,7 @@
   "version": "API_VERSION",
   "license": "Apache 2.0",
   "scripts": {
-    "build-release": "tsc -p tsconfig-build.json",
+    "build-release": "tsc -p tsconfig-build.json && tsc-alias -p tsconfig-build.json",
     "postbuild": "mkdir dist && mv *.js.map *.js *.d.ts ./dist/"
   },
   "private": true,
@@ -12,7 +12,8 @@
     "url": "0.11.0"
   },
   "devDependencies": {
-    "typescript": "~2.3.3"
+    "tsc-alias": "^1.8.16",
+    "typescript": "~5.9.3"
   },
   "overrides": {
     "isomorphic-fetch": {

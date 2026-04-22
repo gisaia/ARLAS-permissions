@@ -1,34 +1,55 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>io.arlas</groupId>
     <artifactId>arlas-permissions-parent</artifactId>
     <version>28.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ARLAS permissions parent</name>
-
+    <distributionManagement>
+        <snapshotRepository>
+            <id>io.arlas.permissions.server.parent</id>
+            <url>https://maven.cloudsmith.io/gisaia/private/</url>
+        </snapshotRepository>
+        <repository>
+            <id>io.arlas.permissions.server.parent</id>
+            <url>https://maven.cloudsmith.io/gisaia/private/</url>
+        </repository>
+    </distributionManagement>
     <modules>
         <module>arlas-permissions-core</module>
         <module>arlas-permissions-rest</module>
         <module>arlas-permissions-server</module>
         <module>arlas-permissions-tests</module>
     </modules>
-
     <properties>
         <!-- PROJECT-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipTests>true</skipTests>
-        <surefire.version>2.22.2</surefire.version>
-
-        <arlas-commons.version>27.3.2</arlas-commons.version>
-        <log4j.version>2.23.1</log4j.version>
+        <maven.surefire.version>3.2.5</maven.surefire.version>
+        <maven.failsafe.version>3.2.5</maven.failsafe.version>
+        <maven.compiler.version>3.11.0</maven.compiler.version>
+        <maven.shade.version>3.5.0</maven.shade.version>
+        <arlas-commons.version>28.0.0-rc2</arlas-commons.version>
         <!-- TESTS -->
         <junit.version>4.13.2</junit.version>
         <org.hamcrest.version>2.2</org.hamcrest.version>
         <io.rest-assured.version>5.4.0</io.rest-assured.version>
+        <!-- JACKSON CORE -->
+        <jackson.core.version>2.21.1</jackson.core.version>
+        <!-- JETTY SERVER  -->
+        <jetty-server.version>12.1.8</jetty-server.version>
     </properties>
-
+    <dependencyManagement>
+        <dependencies>
+            <!-- TO FIX CVE GHSA-72hv-8253-57qq -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.core.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <!-- ____________________________________________________ -->
         <!-- Tests -->
@@ -39,59 +60,53 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
         <!-- ____________________________________________________ -->
-        <!-- LOGS -->
+        <!-- Override for fix CVE -->
         <!-- ____________________________________________________ -->
         <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty-server.version}</version>
         </dependency>
     </dependencies>
-
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven.surefire.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${maven.failsafe.version}</version>
+                    <configuration>
+                        <argLine>-Xmx2048m</argLine>
+                        <skipITs>${skipTests}</skipITs>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>${maven.compiler.version}</version>
                 <configuration>
                     <release>17</release>
-                    <source>17</source>
-                    <target>17</target>
                 </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.22.2</version>
-                <configuration>
-                    <argLine>-Xmx2048m</argLine>
-                    <skipITs>${skipTests}</skipITs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- SUREFIRE LOCK DOWN -->
-            <plugin>
-                <!-- lock down surefire version -->
-                <!-- avoid having to "download all the internet" on each docker build of arlas-permissions docker image -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire.version}</version>
             </plugin>
         </plugins>
     </build>
-
     <repositories>
         <repository>
             <id>gisaia-public</id>
@@ -106,16 +121,4 @@
             </snapshots>
         </repository>
     </repositories>
-
-    <distributionManagement>
-        <snapshotRepository>
-            <id>io.arlas.permissions.server.parent</id>
-            <url>https://maven.cloudsmith.io/gisaia/private/</url>
-        </snapshotRepository>
-        <repository>
-            <id>io.arlas.permissions.server.parent</id>
-            <url>https://maven.cloudsmith.io/gisaia/private/</url>
-        </repository>
-    </distributionManagement>
-
 </project>

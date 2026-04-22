@@ -71,7 +71,6 @@ docker run -ti -d \
 | ARLAS_PERMISSIONS_PORT                | server.connector.port                                  | 9997                               |                                                                                     |
 | ARLAS_PERMISSIONS_MAX_THREADS         | server.maxThreads                                      | 1024                               |                                                                                     |
 | ARLAS_PERMISSIONS_MIN_THREADS         | server.minThreads                                      | 8                                  |                                                                                     |
-| ARLAS_PERMISSIONS_MAX_QUEUED_REQUESTS | server.maxQueuedRequests                               | 1024                               |                                                                                     |
 
    
 ### Logging

@@ -29,7 +29,7 @@ jobs:
         exit-code: 1
         failure-threshold: fatal
     - name: Run Trivy vulnerability scanner
-      uses: aquasecurity/trivy-action@master
+      uses: aquasecurity/trivy-action@0.35.0
       with:
         image-ref: 'docker.io/gisaia/arlas-permissions-server:${{ github.sha }}'
         format: 'table'

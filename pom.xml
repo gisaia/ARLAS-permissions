@@ -22,7 +22,7 @@
         <surefire.version>2.22.2</surefire.version>
 
         <arlas-commons.version>27.3.2</arlas-commons.version>
-        <log4j.version>2.23.1</log4j.version>
+        <log4j.version>2.25.4</log4j.version>
         <!-- TESTS -->
         <junit.version>4.13.2</junit.version>
         <org.hamcrest.version>2.2</org.hamcrest.version>

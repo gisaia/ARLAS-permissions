@@ -30,7 +30,7 @@
         <maven.failsafe.version>3.2.5</maven.failsafe.version>
         <maven.compiler.version>3.11.0</maven.compiler.version>
         <maven.shade.version>3.5.0</maven.shade.version>
-        <arlas-commons.version>28.0.0-rc2</arlas-commons.version>
+        <arlas-commons.version>28.0.0-rc10</arlas-commons.version>
         <!-- TESTS -->
         <junit.version>4.13.2</junit.version>
         <org.hamcrest.version>2.2</org.hamcrest.version>
@@ -60,13 +60,14 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- ____________________________________________________ -->
-        <!-- Override for fix CVE -->
-        <!-- ____________________________________________________ -->
+        <!-- TO FIX CVE-2026-2332  -->
+        <!-- TO NOT MIX JETTY VERSION  -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-server</artifactId>
+            <artifactId>jetty-bom</artifactId>
             <version>${jetty-server.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
         </dependency>
     </dependencies>
     <build>

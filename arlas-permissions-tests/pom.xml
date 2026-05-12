@@ -6,10 +6,10 @@
     <parent>
         <groupId>io.arlas</groupId>
         <artifactId>arlas-permissions-parent</artifactId>
-        <version>28.0.1-SNAPSHOT</version>
+        <version>28.0.0-rc6</version>
     </parent>
     <artifactId>arlas-permissions-tests</artifactId>
-    <version>28.0.1-SNAPSHOT</version>
+    <version>28.0.0-rc6</version>
     <packaging>jar</packaging>
     <name>ARLAS permissions server</name>
     <dependencies>

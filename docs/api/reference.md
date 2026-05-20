@@ -1,6 +1,6 @@
 <!-- Generator: Widdershins v4.0.1 -->
 
-<h1 id="arlas-permissions-apis">ARLAS Permissions APIs v28.0.0-rc4</h1>
+<h1 id="arlas-permissions-apis">ARLAS Permissions APIs v28.0.0</h1>
 
 > Scroll down for example requests and responses.
 

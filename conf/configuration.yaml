@@ -13,9 +13,8 @@ server:
   connector:
     type: http
     port: ${ARLAS_PERMISSIONS_PORT:-9997}
-  maxThreads: ${ARLAS_PERMISSIONS_MAX_THREADS:-1024}
-  minThreads: ${ARLAS_PERMISSIONS_MIN_THREADS:-8}
-  maxQueuedRequests: ${ARLAS_PERMISSIONS_MAX_QUEUED_REQUESTS:-1024}
+  maxThreads: ${ARLAS_PERMISSIONS_MAX_THREADS:-200}
+  minThreads: ${ARLAS_PERMISSIONS_MIN_THREADS:-10}
 
 ########################################################
 ############ LOGGING                     ###############

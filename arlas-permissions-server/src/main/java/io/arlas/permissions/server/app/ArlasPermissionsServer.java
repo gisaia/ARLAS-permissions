@@ -24,11 +24,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.arlas.commons.cache.CacheFactory;
 import io.arlas.commons.config.ArlasConfiguration;
-import io.arlas.commons.config.ArlasCorsConfiguration;
 import io.arlas.commons.exceptions.ArlasExceptionMapper;
 import io.arlas.commons.exceptions.ConstraintViolationExceptionMapper;
 import io.arlas.commons.exceptions.IllegalArgumentExceptionMapper;
 import io.arlas.commons.exceptions.JsonProcessingExceptionMapper;
+import io.arlas.commons.rest.utils.CORSUtil;
 import io.arlas.commons.rest.utils.InsensitiveCaseFilter;
 import io.arlas.commons.rest.utils.PrettyPrintFilter;
 import io.arlas.filter.config.ResourceDefinitions;
@@ -44,15 +44,9 @@ import io.dropwizard.core.setup.Bootstrap;
 import io.dropwizard.core.setup.Environment;
 import io.federecio.dropwizard.swagger.SwaggerBundle;
 import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
-import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import jakarta.servlet.DispatcherType;
-import jakarta.servlet.FilterRegistration;
-import jakarta.ws.rs.core.HttpHeaders;
-import java.util.EnumSet;
 
 public class ArlasPermissionsServer extends Application<io.arlas.permissions.server.app.ArlasPermissionsServerConfiguration> {
     Logger LOGGER = LoggerFactory.getLogger(ArlasPermissionsServer.class);
@@ -120,36 +114,10 @@ public class ArlasPermissionsServer extends Application<io.arlas.permissions.ser
         environment.jersey().register(new PermissionsRestService(policyEnforcer.isEnabled()));
 
         //cors
-        if (configuration.arlasCorsConfiguration.enabled) {
-            configureCors(environment, configuration.arlasCorsConfiguration);
-        } else {
-            CrossOriginFilter filter = new CrossOriginFilter();
-            final FilterRegistration.Dynamic cors = environment.servlets().addFilter("CrossOriginFilter", filter);
-            // Expose always HttpHeaders.WWW_AUTHENTICATE to authentify on client side a non public uri call
-            cors.setInitParameter(CrossOriginFilter.EXPOSED_HEADERS_PARAM, HttpHeaders.WWW_AUTHENTICATE);
-        }
+        CORSUtil.configureCors(environment, configuration.arlasCorsConfiguration);
 
         //filters
         environment.jersey().register(PrettyPrintFilter.class);
         environment.jersey().register(InsensitiveCaseFilter.class);
-    }
-
-    private void configureCors(Environment environment, ArlasCorsConfiguration configuration) {
-        CrossOriginFilter filter = new CrossOriginFilter();
-        final FilterRegistration.Dynamic cors = environment.servlets().addFilter("CrossOriginFilter", filter);
-        // Configure CORS parameters
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, configuration.allowedOrigins);
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, configuration.allowedHeaders);
-        cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, configuration.allowedMethods);
-        cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, String.valueOf(configuration.allowedCredentials));
-        String exposedHeader = configuration.exposedHeaders;
-        // Expose always HttpHeaders.WWW_AUTHENTICATE to authentify on client side a non public uri call
-        if(!configuration.exposedHeaders.contains(HttpHeaders.WWW_AUTHENTICATE)){
-            exposedHeader = configuration.exposedHeaders.concat(",").concat(HttpHeaders.WWW_AUTHENTICATE);
-        }
-        cors.setInitParameter(CrossOriginFilter.EXPOSED_HEADERS_PARAM, exposedHeader);
-
-        // Add URL mapping
-        cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
     }
 }

@@ -38,7 +38,7 @@
         <!-- JACKSON CORE -->
         <jackson.core.version>2.21.4</jackson.core.version>
         <!-- JETTY SERVER  -->
-        <jetty-server.version>12.1.8</jetty-server.version>
+        <jetty-server.version>12.1.10</jetty-server.version>
     </properties>
     <dependencyManagement>
         <dependencies>

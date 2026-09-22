@@ -78,7 +78,7 @@ public class ArlasPermissionsServer extends Application<io.arlas.permissions.ser
     public void run(io.arlas.permissions.server.app.ArlasPermissionsServerConfiguration configuration, Environment environment) throws Exception {
 
         configuration.check();
-        LOGGER.info("Checked configuration: " + (new ObjectMapper()).writer().writeValueAsString(configuration));
+        LOGGER.info("Checked configuration: " + environment.getObjectMapper().writer().writeValueAsString(configuration));
 
         environment.getObjectMapper().setSerializationInclusion(Include.NON_NULL);
         environment.getObjectMapper().configure(SerializationFeature.WRITE_EMPTY_JSON_ARRAYS, false);

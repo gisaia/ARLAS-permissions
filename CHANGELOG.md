@@ -1,5 +1,17 @@
 # Change Log
 
+## [v29.0.0](https://github.com/gisaia/arlas-permissions/tree/v29.0.0) (2026-10-09)
+
+[Full Changelog](https://github.com/gisaia/arlas-permissions/compare/v24.0.11...v29.0.0)
+
+## [v24.0.11](https://github.com/gisaia/arlas-permissions/tree/v24.0.11) (2026-09-24)
+
+[Full Changelog](https://github.com/gisaia/arlas-permissions/compare/v29.0.0-rc1...v24.0.11)
+
+## [v29.0.0-rc1](https://github.com/gisaia/arlas-permissions/tree/v29.0.0-rc1) (2026-07-20)
+
+[Full Changelog](https://github.com/gisaia/arlas-permissions/compare/v28.0.0...v29.0.0-rc1)
+
 ## [v28.0.0](https://github.com/gisaia/arlas-permissions/tree/v28.0.0) (2026-05-20)
 
 [Full Changelog](https://github.com/gisaia/arlas-permissions/compare/v28.0.0-rc6...v28.0.0)

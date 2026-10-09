@@ -6,10 +6,10 @@
     <parent>
         <groupId>io.arlas</groupId>
         <artifactId>arlas-permissions-parent</artifactId>
-        <version>28.0.1-SNAPSHOT</version>
+        <version>29.0.1-SNAPSHOT</version>
     </parent>
     <artifactId>arlas-permissions-server</artifactId>
-    <version>28.0.1-SNAPSHOT</version>
+    <version>29.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>ARLAS permissions server</name>
     <dependencies>
@@ -33,6 +33,13 @@
                         </goals>
                         <configuration>
                             <filters>
+                                <filter>
+                                    <artifact>com.hazelcast:hazelcast</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/maven/com.fasterxml.jackson.core/**</exclude>
+                                        <exclude>META-INF/maven/tools.jackson.core/**</exclude>
+                                    </excludes>
+                                </filter>
                                 <filter>
                                     <artifact>*:*</artifact>
                                     <excludes>

@@ -1,6 +1,6 @@
 <!-- Generator: Widdershins v4.0.1 -->
 
-<h1 id="arlas-permissions-apis">ARLAS Permissions APIs v28.0.0</h1>
+<h1 id="arlas-permissions-apis">ARLAS Permissions APIs v29.0.0-rc1</h1>
 
 > Scroll down for example requests and responses.
 
@@ -110,7 +110,7 @@ This operation does not require authentication
 
 |Name|Type|Required|Restrictions|Description|
 |---|---|---|---|---|
-|status|integer(int32)|false|none|none|
-|message|string|false|none|none|
-|error|string|false|none|none|
+|status|integer(int32)|true|none|none|
+|message|string|true|none|none|
+|error|string|true|none|none|
 

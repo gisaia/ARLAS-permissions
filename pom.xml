@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.arlas</groupId>
     <artifactId>arlas-permissions-parent</artifactId>
-    <version>28.0.1-SNAPSHOT</version>
+    <version>29.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ARLAS permissions parent</name>
     <distributionManagement>
@@ -30,15 +30,15 @@
         <maven.failsafe.version>3.2.5</maven.failsafe.version>
         <maven.compiler.version>3.11.0</maven.compiler.version>
         <maven.shade.version>3.5.0</maven.shade.version>
-        <arlas-commons.version>28.0.0</arlas-commons.version>
+        <arlas-commons.version>29.0.0</arlas-commons.version>
         <!-- TESTS -->
         <junit.version>4.13.2</junit.version>
         <org.hamcrest.version>2.2</org.hamcrest.version>
         <io.rest-assured.version>5.4.0</io.rest-assured.version>
         <!-- JACKSON CORE -->
-        <jackson.core.version>2.21.4</jackson.core.version>
+        <jackson.core.version>2.22.3</jackson.core.version>
         <!-- JETTY SERVER  -->
-        <jetty-server.version>12.1.8</jetty-server.version>
+        <jetty-server.version>12.1.10</jetty-server.version>
     </properties>
     <dependencyManagement>
         <dependencies>
